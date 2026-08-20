@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>건설고도화 추진단 업무현황판</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1F3864;
+    --navy-2:#2E5395;
+    --navy-border:#3A5F9E;
+    --ink:#1A1D23;
+    --sub:#6B7280;
+    --line:#E1E4EA;
+    --line-strong:#C7CCD6;
+    --panel:#FFFFFF;
+    --bg:#F5F6F8;
+    --input-bg:#FFFDF3;
+    --amber-bg:#FFF2CC; --amber-fg:#7F6000;
+    --green-bg:#E2EFDA; --green-fg:#375623;
+    --red-bg:#FCE4E4; --red-fg:#C00000;
+    --blue-bg:#E6F1FB; --blue-fg:#0C447C;
+    --subhead-bg:#EDF1F8;
+    --shadow: 0 1px 2px rgba(20,25,50,.03), 0 4px 14px rgba(20,25,50,.04);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Pretendard','Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background:var(--bg);
+    color:var(--sch-ink);
+    padding:20px 24px 40px;
+  }
+  .wrap{max-width:1600px;margin:0 auto;}
+
+  .nav-tabs{display:flex;gap:8px;margin-bottom:16px;}
+  .nav-tab{
+    appearance:none;border:1px solid var(--line-strong);background:#fff;color:var(--sub);
+    padding:10px 18px;border-radius:9px;font-size:13.5px;font-weight:700;cursor:pointer;
+    font-family:inherit;transition:all .15s ease;
+  }
+  .nav-tab:hover{background:var(--bg);color:var(--sch-ink);}
+  .nav-tab.active{background:var(--sch-navy);color:#fff;border-color:var(--sch-navy);}
+
+  .notice-tab{
+    appearance:none;border:1px solid #EFAFAF;background:#FDECEC;color:#B02020;
+    padding:10px 18px;border-radius:9px;font-size:13.5px;font-weight:700;cursor:pointer;
+    font-family:inherit;transition:all .15s ease;
+  }
+  .notice-tab:hover{background:#FBD9D9;}
+
+  .modal-overlay{
+    display:none;position:fixed;inset:0;background:rgba(60,15,15,.5);
+    z-index:1000;align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-box{
+    background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.3);
+    width:100%;max-width:480px;overflow:hidden;border:1px solid #F0C6C6;
+  }
+  .modal-header{
+    background:#B02020;color:#fff;padding:16px 20px;
+    display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:15px;
+  }
+  .modal-header .modal-close{
+    appearance:none;border:none;background:transparent;color:#fff;font-size:16px;
+    cursor:pointer;padding:2px 6px;border-radius:6px;line-height:1;
+  }
+  .modal-header .modal-close:hover{background:rgba(255,255,255,.15);}
+  .modal-body{
+    padding:20px;min-height:120px;max-height:50vh;overflow-y:auto;
+    font-size:13.5px;line-height:1.7;color:var(--ink);outline:none;white-space:pre-wrap;
+  }
+  .modal-body:focus{background:#FFF5F5;}
+  .modal-body[contenteditable="true"]{background:#FFF5F5;box-shadow:inset 0 0 0 1px #E39B9B;border-radius:6px;}
+  .modal-footer{padding:12px 20px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .modal-footer-right{display:flex;gap:8px;}
+  .modal-footer-right .btn{border-color:#E39B9B;color:#B02020;}
+  .modal-footer-right .btn:hover{background:#FDECEC;}
+  .modal-footer-right .btn.primary{background:#B02020;color:#fff;border-color:#B02020;}
+  .modal-footer-right .btn.primary:hover{background:#961A1A;border-color:#961A1A;}
+  .btn.ghost{
+    border-color:transparent;background:transparent;color:var(--sub);
+    padding:8px 4px;font-weight:500;text-decoration:underline;text-underline-offset:2px;
+  }
+  .btn.ghost:hover{color:var(--ink);background:transparent;}
+
+  .person-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 14px;}
+  .person-tab{
+    appearance:none;border:1px solid var(--line-strong);background:#fff;color:var(--sub);
+    padding:7px 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;
+    font-family:inherit;transition:all .15s ease;
+  }
+  .person-tab:hover{background:var(--bg);color:var(--ink);}
+  .person-tab.active{background:var(--navy-2);color:#fff;border-color:var(--navy-2);}
+
+  .leader-request{
+    background:#FFF7E6;border:1px solid #E9C27A;border-radius:10px;
+    padding:12px 16px;margin-bottom:14px;
+  }
+  .leader-request-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;}
+  .leader-request-label{font-size:11.5px;font-weight:800;color:#8A5A00;letter-spacing:.02em;}
+  .leader-request-edit-btn{
+    appearance:none;border:1px solid #E9C27A;background:#fff;color:#8A5A00;
+    padding:3px 10px;border-radius:6px;font-size:11.5px;font-weight:700;cursor:pointer;
+    font-family:inherit;
+  }
+  .leader-request-edit-btn:hover{background:#FFEFCC;}
+  .leader-request-body{
+    font-size:13px;line-height:1.6;color:var(--ink);outline:none;min-height:22px;white-space:pre-wrap;
+  }
+  .leader-request-body[contenteditable="true"]{background:#fff;border-radius:6px;box-shadow:inset 0 0 0 1px #E9C27A;padding:4px 6px;margin:-4px -6px;}
+  .leader-request-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:10px;}
+  .leader-request-actions .btn{padding:5px 12px;font-size:12px;}
+
+  .person-tab-c0{background:#E7ECF5;color:var(--navy);border-color:#C7D3E9;}
+  .person-tab-c0:hover{background:#DCE4F2;color:var(--navy);}
+  .person-tab-c0.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+
+  .person-tab-c1{background:var(--green-bg);color:var(--green-fg);border-color:#C7DFC0;}
+  .person-tab-c1:hover{background:#D7EACE;color:var(--green-fg);}
+  .person-tab-c1.active{background:#2F7D45;color:#fff;border-color:#2F7D45;}
+
+  .person-tab-c2{background:var(--amber-bg);color:var(--amber-fg);border-color:#E9D590;}
+  .person-tab-c2:hover{background:#FBEAB4;color:var(--amber-fg);}
+  .person-tab-c2.active{background:#B7791F;color:#fff;border-color:#B7791F;}
+
+  .person-tab-c3{background:#EFE9FA;color:#5B3A9E;border-color:#D6C6EF;}
+  .person-tab-c3:hover{background:#E2D6F5;color:#5B3A9E;}
+  .person-tab-c3.active{background:#6B46C1;color:#fff;border-color:#6B46C1;}
+
+  .person-tab-c4{background:var(--red-bg);color:var(--red-fg);border-color:#F0C2C2;}
+  .person-tab-c4:hover{background:#FAD3D3;color:var(--red-fg);}
+  .person-tab-c4.active{background:#C0392B;color:#fff;border-color:#C0392B;}
+
+  .app-page{display:none;}
+  .app-page.active{display:block;}
+
+  .toolbar{
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end;
+    margin-bottom:14px;
+  }
+  .btn{
+    appearance:none;border:1px solid var(--line-strong);background:#fff;color:var(--sch-ink);
+    padding:8px 14px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;transition:all .15s ease;
+  }
+  .btn:hover{background:var(--bg);}
+  .btn.primary{background:var(--sch-navy);color:#fff;border-color:var(--sch-navy);}
+  .btn.primary:hover{background:var(--navy-2);border-color:var(--navy-2);}
+  .btn svg{width:14px;height:14px;}
+
+  .card{
+    background:var(--panel);border:1px solid var(--sch-line);border-radius:14px;
+    box-shadow:var(--shadow);padding:26px 30px;margin-bottom:18px;
+  }
+  #commonAggPanel{background:#EFF6FE;border-color:#CFE2F7;}
+  #personalAggPanel{background:#EFF9F1;border-color:#CFE9D5;}
+  #commonPanel{background:#FDF9EE;border-color:#F0E4BE;}
+  #personalPanel{background:#FBF1F2;border-color:#F3D9DC;}
+
+  .header-banner{
+    background:var(--sch-navy);border-radius:14px;padding:24px 28px;color:#fff;margin-bottom:18px;
+  }
+  .headerbar{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
+  .title-block h1{
+    font-size:24px;font-weight:700;margin:0 0 4px;letter-spacing:-.01em;color:#fff;outline:none;
+  }
+  .title-block .subtitle{
+    font-size:12.5px;letter-spacing:.03em;color:#B9C6DE;font-weight:500;outline:none;
+  }
+  .title-block [contenteditable]{border-radius:6px;padding:2px 6px;}
+  .title-block [contenteditable]:hover{background:rgba(255,255,255,.08);}
+  .title-block [contenteditable]:focus{background:rgba(255,255,255,.16);}
+
+  .meta{display:flex;gap:18px;margin-top:2px;flex-wrap:wrap;}
+  .meta .item{display:flex;flex-direction:column;gap:3px;}
+  .meta label{font-size:11px;color:#9FB1CE;}
+  .meta [contenteditable]{
+    font-size:13px;font-weight:600;color:#fff;background:rgba(255,255,255,.08);
+    border:1px dashed rgba(255,255,255,.35);border-radius:6px;padding:4px 8px;min-width:150px;outline:none;
+  }
+  .meta [contenteditable]:focus{background:rgba(255,255,255,.16);}
+  .meta .status-item [contenteditable]{display:inline-flex;align-items:center;}
+
+  .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#5FD394;margin-right:5px;box-shadow:0 0 0 3px rgba(95,211,148,.25);}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media (max-width:980px){.grid{grid-template-columns:1fr;}}
+
+  .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  @media (max-width:640px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
+  .kpi-tile{background:#fff;border:1px solid var(--sch-line);border-radius:10px;padding:12px 6px;text-align:center;}
+  .kpi-tile .kpi-val{font-size:21px;font-weight:800;color:var(--sch-navy);}
+  .kpi-tile .kpi-lab{font-size:10.5px;color:var(--sub);margin-top:4px;font-weight:700;}
+  .kpi-tile.진행중 .kpi-val{color:var(--amber-fg);}
+  .kpi-tile.완료 .kpi-val{color:var(--green-fg);}
+  .kpi-tile.보류 .kpi-val{color:var(--red-fg);}
+
+  .person-break{margin-top:14px;border-top:1px dashed var(--sch-line);padding-top:12px;}
+  .person-break-title{font-size:11.5px;font-weight:700;color:var(--sub);margin-bottom:8px;}
+  .person-table{width:100%;border-collapse:collapse;font-size:12px;}
+  .person-table th{
+    background:var(--subhead-bg);color:var(--sch-navy);font-weight:700;text-align:center;
+    padding:6px 4px;border:1px solid var(--sch-line);font-size:11px;
+  }
+  .person-table td{padding:6px 4px;border:1px solid var(--sch-line);text-align:center;}
+  .person-table td.person-name{text-align:center;font-weight:700;color:var(--sch-navy);}
+
+  #commonByPerson table thead th{background:var(--sch-navy);color:#fff;}
+  #commonByPerson table tbody tr:nth-child(even){background:#EEF3FA;}
+  #commonByPerson table tbody tr:hover{background:#DCE8F7;}
+  #commonByPerson td.person-name{background:#DCE8F7;color:var(--navy);}
+  #commonByPerson table tbody tr:nth-child(even) td.person-name{background:#CFDFF3;}
+  .person-table td.count-nonzero{font-weight:800;}
+  .person-table td.진행중.count-nonzero{color:var(--amber-fg);}
+  .person-table td.완료.count-nonzero{color:var(--green-fg);}
+  .person-table td.보류.count-nonzero{color:var(--red-fg);}
+
+  .person-mini-wrap{display:flex;flex-direction:column;gap:8px;}
+  .person-mini{margin:0;}
+  .person-mini th.mini-name{
+    color:#fff;font-weight:800;text-align:center;
+  }
+  .person-mini th.mini-name.mini-c0{background:var(--navy);}
+  .person-mini th.mini-name.mini-c1{background:#2F7D45;}
+  .person-mini th.mini-name.mini-c2{background:#B7791F;}
+  .person-mini th.mini-name.mini-c3{background:#6B46C1;}
+  .person-mini th.mini-name.mini-c4{background:#C0392B;}
+  .person-mini td.mini-label{
+    text-align:center;font-weight:800;color:var(--green-fg);background:var(--subhead-bg);font-size:13px;
+  }
+  .person-mini td.mini-count{font-weight:700;color:var(--sch-navy);}
+
+  .panel-title{
+    display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;margin:0 0 14px;color:var(--sch-navy);
+  }
+  .panel-title .bar{width:5px;height:16px;background:var(--navy-2);border-radius:3px;display:inline-block;}
+  .panel-title .en{font-weight:600;color:var(--sub);font-size:11.5px;letter-spacing:.03em;margin-left:2px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;}
+  thead th{
+    background:var(--navy-2);color:#fff;font-weight:600;text-align:center;
+    padding:9px 8px;border:1px solid var(--navy-border);
+    font-size:12px;
+  }
+  .table-scroll-5{max-height:420px;overflow-y:auto;border-radius:8px;}
+  .table-scroll-5 thead th{position:sticky;top:0;z-index:2;}
+  .table-scroll-5 thead th.th-sub{position:sticky;top:33px;z-index:2;}
+  thead th.th-sub{
+    background:var(--subhead-bg);color:var(--sch-navy);font-size:10.5px;padding:5px 4px;border:1px solid var(--sch-line);
+  }
+  tbody td{
+    padding:8px 8px;border:1px solid var(--sch-line);vertical-align:top;line-height:1.55;
+    outline:none;
+  }
+  tbody tr:hover{background:#FAFBFC;}
+  td[contenteditable]{background:var(--input-bg);border-radius:5px;cursor:text;}
+  td[contenteditable]:hover{background:#FFF9E0;}
+  td[contenteditable]:focus{background:#fff;box-shadow:0 0 0 2px #B9CBEA;border-radius:5px;}
+  ul.task-list{margin:0;padding-left:16px;}
+  ul.task-list li{margin-bottom:3px;border-radius:4px;}
+  ul.task-list li:last-child{margin-bottom:0;}
+  ul.task-list li[contenteditable]{padding:2px 4px;}
+  .col-tag{font-weight:700;color:var(--sch-navy);}
+  .col-name{font-weight:700;}
+  .col-role{color:var(--sub);font-weight:600;font-size:12px;margin-top:4px;}
+  .name-select{
+    width:100%;appearance:none;-webkit-appearance:none;border:1px solid var(--line-strong);
+    background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236B7280" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 6px center;
+    background-size:12px;color:var(--sch-navy);font-weight:700;font-size:13px;
+    padding:6px 22px 6px 8px;border-radius:6px;cursor:pointer;font-family:inherit;
+  }
+  .name-select:hover{border-color:var(--navy-2);}
+  .name-select:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 2px #B9CBEA;}
+  .row-no{text-align:center;color:var(--sub);font-weight:700;}
+
+  .item-select{
+    width:100%;appearance:none;-webkit-appearance:none;border:1px solid var(--line-strong);
+    background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236B7280" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 8px center;
+    background-size:14px;color:var(--sch-navy);font-weight:700;font-size:12.5px;
+    padding:7px 26px 7px 9px;border-radius:6px;cursor:pointer;font-family:inherit;
+  }
+  .item-select:hover{border-color:var(--navy-2);}
+  .item-select:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 2px #B9CBEA;}
+
+  .staff-td{text-align:center;}
+  .staff-select{
+    width:100%;appearance:none;-webkit-appearance:none;border:1px solid var(--line-strong);
+    background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%236B7280" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>') no-repeat right 6px center;
+    background-size:12px;color:var(--sch-ink);font-weight:600;font-size:12px;text-align:center;text-align-last:center;
+    padding:6px 20px 6px 8px;border-radius:6px;cursor:pointer;font-family:inherit;
+  }
+  .staff-select:hover{border-color:var(--navy-2);}
+  .staff-select:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 2px #B9CBEA;}
+
+  .period-td{text-align:center;}
+  .period-input{
+    width:100%;min-width:118px;border:1px solid var(--line-strong);border-radius:6px;
+    padding:5px 4px;font-size:11.5px;font-weight:600;color:var(--sch-navy);
+    font-family:inherit;cursor:pointer;background:#fff;
+  }
+  .period-input:hover{border-color:var(--navy-2);}
+  .period-input:focus{outline:none;border-color:var(--navy-2);box-shadow:0 0 0 2px #B9CBEA;}
+
+  .badge{
+    display:inline-flex;align-items:center;justify-content:center;gap:4px;
+    padding:4px 10px;border-radius:6px;font-size:12px;font-weight:700;
+    border:none;cursor:pointer;min-width:64px;font-family:inherit;
+  }
+  .badge.진행중{background:var(--amber-bg);color:var(--amber-fg);}
+  .badge.완료{background:var(--green-bg);color:var(--green-fg);}
+  .badge.보류{background:var(--red-bg);color:var(--red-fg);}
+
+  .row-actions{width:34px;text-align:center;}
+  .icon-btn{
+    background:none;border:none;color:#9AA1AC;cursor:pointer;font-size:16px;line-height:1;padding:2px 4px;border-radius:5px;
+  }
+  .icon-btn:hover{color:#C00000;background:#F0F1F4;}
+  .add-row-btn{
+    margin-top:10px;width:100%;padding:9px;border:1px dashed var(--line-strong);background:#FAFBFC;
+    border-radius:8px;color:var(--navy-2);font-weight:600;font-size:12.5px;cursor:pointer;
+  }
+  .add-row-btn:hover{background:var(--subhead-bg);}
+
+  .note{
+    margin-top:18px;border:1px solid #FCE3A0;border-radius:8px;padding:10px 14px;
+    background:#FFF7E6;font-size:12.5px;color:#B54708;line-height:1.7;display:flex;gap:8px;
+  }
+  .note .ico{flex:none;}
+  .note b{color:#7A4A0E;}
+  .note [contenteditable]{outline:none;border-radius:4px;}
+  .note [contenteditable]:hover{background:rgba(255,255,255,.5);}
+  .note [contenteditable]:focus{background:#fff;color:var(--sch-ink);}
+
+  .footer-hint{
+    text-align:center;color:#9aa0b0;font-size:11.5px;margin-top:22px;
+  }
+
+  @media print{
+    body{background:#fff;padding:0;}
+    .toolbar,.add-row-btn,.row-actions,.footer-hint{display:none !important;}
+    .card{box-shadow:none;border:none;}
+  }
+
+  /* ===== 회의및출장일정 (embedded schedule) ===== */
+
+  :root{
+    --sch-navy:#14304D;
+    --sch-navy-deep:#0C2138;
+    --sch-paper:#F4F5F7;
+    --sch-card:#FFFFFF;
+    --sch-ink:#22262B;
+    --sch-muted:#6B7280;
+    --sch-line:#E1E4E9;
+    --sch-sun:#C0392B;
+    --sch-sat:#2159A6;
+
+    --sch-mh-bg:#E1F5EE; --sch-mh-fg:#085041;
+    --sch-target-bg:#E6F1FB; --sch-target-fg:#0C447C;
+    --sch-jeokgi-bg:#FAEEDA; --sch-jeokgi-fg:#633806;
+    --sch-iso-bg:#EEEDFE; --sch-iso-fg:#3C3489;
+    --sch-semina-bg:#EAF3DE; --sch-semina-fg:#27500A;
+    --sch-holiday-bg:#FDEAEA; --sch-holiday-fg:#B3261E;
+    --sch-wanju-bg:#FBEAF0; --sch-wanju-fg:#72243E;
+    --sch-jonghap-bg:#FAECE7; --sch-jonghap-fg:#4A1B0C;
+    --sch-special-bg:#FBE7E7; --sch-special-fg:#7A1F1F;
+    --sch-audit-bg:#ECEEF3; --sch-audit-fg:#33394A;
+    --sch-edu-bg:#FFF6DC; --sch-edu-fg:#7A5B00;
+    --sch-recheck-bg:#E3F2FA; --sch-recheck-fg:#0B4A66;
+  }#page-schedule{
+    margin:0;
+    background:var(--sch-paper);
+    color:var(--sch-ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+    padding:28px 20px 60px;
+  }#page-schedule .sheet{
+    max-width:1600px;
+    margin:0 auto;
+    background:var(--sch-card);
+    border:0.5px solid var(--sch-line);
+    border-radius:14px;
+    overflow:hidden;
+  }#page-schedule .sch-toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:12px 20px;
+    background:var(--sch-navy-deep);
+    color:#fff;
+    flex-wrap:wrap;
+  }#page-schedule .sch-toolbar .hint{ font-size:12px; color:#B9C6D6; }#page-schedule .sch-toolbar .actions{ display:flex; gap:8px; }#page-schedule .sch-toolbar button{
+    font-family:inherit;
+    font-size:13px;
+    padding:7px 14px;
+    border-radius:7px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.06);
+    color:#fff;
+    cursor:pointer;
+  }#page-schedule .sch-toolbar button:hover{ background:rgba(255,255,255,0.16); }#page-schedule .sch-toolbar button.primary{ background:#E8A33D; border-color:#E8A33D; color:#3A2504; font-weight:600; }#page-schedule .sch-toolbar button.primary:hover{ background:#f0b25c; }#page-schedule .month-nav{
+    display:flex; align-items:center; gap:8px;
+    padding-right:10px; margin-right:6px;
+    border-right:1px solid rgba(255,255,255,0.18);
+  }#page-schedule .month-nav button{
+    font-family:inherit; font-size:12.5px;
+    padding:6px 10px; border-radius:7px;
+    border:1px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.06);
+    color:#fff; cursor:pointer;
+  }#page-schedule .month-nav button:hover{ background:rgba(255,255,255,0.16); }#page-schedule .month-label{ font-size:13px; font-weight:600; color:#fff; min-width:78px; text-align:center; }#page-schedule header.doc{ padding:26px 32px 18px; background:var(--sch-navy); color:#fff; }#page-schedule header.doc .row1{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap; }#page-schedule .doc-title{ font-size:22px; font-weight:600; letter-spacing:-0.2px; outline:none; }#page-schedule .doc-title[contenteditable]:focus{ text-decoration:underline dotted rgba(255,255,255,0.5); }#page-schedule .doc-meta{ text-align:right; font-size:12px; line-height:1.7; color:#C6D2E0; }#page-schedule .doc-meta span{ color:#fff; font-weight:500; }#page-schedule .doc-meta [contenteditable]{ outline:none; }#page-schedule .doc-meta [contenteditable]:hover{ text-decoration:underline dotted rgba(255,255,255,0.5); }#page-schedule .company{ margin-top:14px; font-size:12px; color:#9FB1C6; letter-spacing:0.3px; }#page-schedule .summary{ display:grid; grid-template-columns:repeat(4,1fr); gap:6px 10px; padding:12px 32px; background:#F8F9FB; border-bottom:0.5px solid var(--sch-line); }#page-schedule .stat{ background:var(--sch-card); border:0.5px solid var(--sch-line); border-radius:8px; padding:6px 10px; border-left:4px solid var(--sch-line); display:flex; align-items:center; justify-content:space-between; gap:8px; }#page-schedule .stat .label{ font-size:10.5px; color:var(--sch-muted); margin-bottom:0; font-weight:500; }#page-schedule .stat .value{ font-size:14px; font-weight:600; outline:none; white-space:nowrap; }#page-schedule .stat .value[contenteditable]:focus{ text-decoration:underline dotted var(--sch-muted); }#page-schedule .stat.total{ border-left-color:var(--sch-navy); background:var(--sch-navy); }#page-schedule .stat.total .label{ color:#C6D2E0; }#page-schedule .stat.total .value{ color:#fff; font-size:15px; }#page-schedule .stat.total-trip{ border-left-color:var(--sch-target-fg); background:var(--sch-target-fg); }#page-schedule .stat.total-trip .label{ color:#D6E6F5; }#page-schedule .stat.total-trip .value{ color:#fff; font-size:15px; }#page-schedule .cal-wrap{ padding:20px 20px 28px; overflow-x:auto; }#page-schedule .cal-inner{ min-width:980px; }#page-schedule .cal-head{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    margin-bottom:2px;
+  }#page-schedule .cal-head div{
+    font-size:12px;
+    font-weight:600;
+    color:var(--sch-muted);
+    padding:6px 4px 8px;
+    text-align:center;
+  }#page-schedule .cal-head div.sun{ color:var(--sch-sun); }#page-schedule .cal-head div.sat{ color:var(--sch-sat); }#page-schedule .week-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    border-left:0.5px solid var(--sch-line);
+    border-top:0.5px solid var(--sch-line);
+    position:relative;
+  }#page-schedule .day-cell{
+    grid-row:1 / -1;
+    border-right:0.5px solid var(--sch-line);
+    border-bottom:0.5px solid var(--sch-line);
+    padding:5px 5px 3px;
+    background:var(--sch-card);
+  }#page-schedule .day-cell.outside{ background:#FAFAFA; }#page-schedule .day-cell.outside .date-num{ color:#BDC2C9; }#page-schedule .date-num{ font-size:13px; font-weight:600; color:var(--sch-ink); }#page-schedule .date-num.sun{ color:var(--sch-sun); }#page-schedule .date-num.sat{ color:var(--sch-sat); }#page-schedule .date-num.holiday{ color:var(--sch-holiday-fg); }#page-schedule .week-grid.drop-hint .day-cell.drop-target{
+    background:#FFF3D6;
+    outline:2px dashed #E8A33D;
+    outline-offset:-2px;
+  }#page-schedule .event{
+    position:relative;
+    align-self:start;
+    margin:2px 3px;
+    border-radius:6px;
+    padding:4px 34px 4px 16px;
+    font-size:11.5px;
+    line-height:1.4;
+    cursor:grab;
+  }#page-schedule .event:active{ cursor:grabbing; }#page-schedule .event.dragging{ opacity:0.4; }#page-schedule .event .tag{ font-weight:600; }#page-schedule .event .tag[contenteditable]{ outline:none; display:block; }#page-schedule .event .site[contenteditable]{ outline:none; display:block; }#page-schedule .event .people[contenteditable]{ outline:none; display:block; font-size:10.5px; opacity:0.85; margin-top:1px; }#page-schedule .event [contenteditable]:focus{ text-decoration:underline dotted currentColor; }#page-schedule .event .grip{
+    position:absolute; left:3px; top:4px; bottom:4px;
+    display:flex; align-items:center;
+    font-size:10px; opacity:0.4; letter-spacing:-1px;
+  }#page-schedule .event .del{
+    position:absolute; top:2px; right:2px;
+    width:15px; height:15px; border-radius:4px;
+    border:none; background:transparent; color:inherit;
+    opacity:0.5; font-size:12px; line-height:15px;
+    text-align:center; cursor:pointer; padding:0;
+  }#page-schedule .event .del:hover{ opacity:1; background:rgba(0,0,0,0.08); }#page-schedule .event .order-btns{
+    position:absolute; top:1px; right:18px;
+    display:flex; flex-direction:column;
+  }#page-schedule .event .order-btn{
+    width:13px; height:9px; line-height:9px;
+    border:none; background:transparent; color:inherit;
+    opacity:0.5; font-size:8px; cursor:pointer; padding:0;
+    border-radius:3px;
+  }#page-schedule .event .order-btn:hover{ opacity:1; background:rgba(0,0,0,0.08); }#page-schedule .event .order-btn:disabled{ opacity:0.15; cursor:default; }#page-schedule .event .order-btn:disabled:hover{ background:transparent; }#page-schedule .event .span-badge{
+    position:absolute; bottom:2px; right:20px;
+    font-size:9.5px; opacity:0.7;
+  }#page-schedule .event.insert-before{ box-shadow: inset 0 3px 0 0 var(--sch-navy); }#page-schedule .event.insert-after{ box-shadow: inset 0 -3px 0 0 var(--sch-navy); }#page-schedule .cat-mh{ background:var(--sch-mh-bg); color:var(--sch-mh-fg); }#page-schedule .cat-target{ background:var(--sch-target-bg); color:var(--sch-target-fg); }#page-schedule .cat-jeokgi{ background:var(--sch-jeokgi-bg); color:var(--sch-jeokgi-fg); }#page-schedule .cat-iso{ background:var(--sch-iso-bg); color:var(--sch-iso-fg); }#page-schedule .cat-semina{ background:var(--sch-semina-bg); color:var(--sch-semina-fg); }#page-schedule .cat-holiday{ background:var(--sch-holiday-bg); color:var(--sch-holiday-fg); text-align:center; }#page-schedule .cat-wanju{ background:var(--sch-wanju-bg); color:var(--sch-wanju-fg); }#page-schedule .cat-jonghap{ background:var(--sch-jonghap-bg); color:var(--sch-jonghap-fg); }#page-schedule .cat-special{ background:var(--sch-special-bg); color:var(--sch-special-fg); }#page-schedule .cat-recheck{ background:var(--sch-recheck-bg); color:var(--sch-recheck-fg); }#page-schedule .cat-weekly{ background:var(--sch-semina-bg); color:var(--sch-semina-fg); }#page-schedule .cat-extmeet{ background:var(--sch-iso-bg); color:var(--sch-iso-fg); }#page-schedule .cat-exec{ background:var(--sch-special-bg); color:var(--sch-special-fg); }#page-schedule .cat-sitetrip{ background:var(--sch-target-bg); color:var(--sch-target-fg); }#page-schedule .cat-exttrip{ background:var(--sch-mh-bg); color:var(--sch-mh-fg); }#page-schedule .cat-intmeet{ background:var(--sch-wanju-bg); color:var(--sch-wanju-fg); }#page-schedule .add-btn{
+    width:calc(100% - 6px);
+    margin:2px 3px 0;
+    font-size:10.5px;
+    color:var(--sch-muted);
+    background:transparent;
+    border:1px dashed var(--sch-line);
+    border-radius:6px;
+    padding:2px 0;
+    cursor:pointer;
+  }#page-schedule .add-btn:hover{ border-color:var(--sch-navy); color:var(--sch-navy); background:#F2F5FA; }#page-schedule .picker{
+    position:absolute; z-index:20;
+    background:var(--sch-card); border:0.5px solid var(--sch-line); border-radius:8px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.12); padding:6px;
+    display:flex; flex-direction:column; gap:2px; min-width:150px;
+  }#page-schedule .picker button{ text-align:left; font-size:11.5px; padding:6px 8px; border-radius:5px; border:none; cursor:pointer; background:transparent; }#page-schedule .picker button:hover{ background:var(--sch-paper); }#page-schedule .picker .swatch{ display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px; vertical-align:middle; }#page-schedule .legend{ display:flex; flex-wrap:wrap; gap:14px; padding:14px 32px 22px; font-size:12px; color:var(--sch-muted); border-top:0.5px solid var(--sch-line); }#page-schedule .legend .item{ display:flex; align-items:center; gap:6px; }#page-schedule .legend .chip{ width:11px; height:11px; border-radius:3px; }#page-schedule footer.sch-foot-note{ padding:14px 32px 26px; font-size:11.5px; color:var(--sch-muted); outline:none; }#page-schedule footer.sch-foot-note[contenteditable]:focus{ text-decoration:underline dotted var(--sch-muted); }
+
+  
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-page="page-dashboard" type="button">📋 업무현황판</button>
+    <button class="nav-tab" data-page="page-schedule" type="button">🗓️ 회의및출장일정</button>
+    <button class="notice-tab" id="btnNotice" type="button">📢 공지사항</button>
+  </div>
+
+  <div class="modal-overlay" id="noticeOverlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span>📢 공지사항</span>
+        <button class="modal-close" id="noticeClose" type="button">✕</button>
+      </div>
+      <div class="modal-body" id="noticeBody" contenteditable="false" spellcheck="false">공지사항을 입력해 주세요.</div>
+      <div class="modal-footer">
+        <button class="btn ghost" id="noticeSkipToday" type="button">오늘 다시 보지 않기</button>
+        <div class="modal-footer-right">
+          <button class="btn" id="noticeEdit" type="button">수정</button>
+          <button class="btn primary" id="noticeCloseBtn" type="button">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-dashboard" class="app-page active">
+
+  <div class="toolbar">
+    <button class="btn" id="btnAddCommon" title="공통업무 행 추가">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      공통업무 행 추가
+    </button>
+    <button class="btn" id="btnAddPersonal" title="개인업무 행 추가">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      개인업무 행 추가
+    </button>
+    <button class="btn" id="btnPrint" title="PDF로 저장/인쇄">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+      PDF로 저장
+    </button>
+    <button class="btn primary" id="btnDownload" title="편집한 내용 그대로 HTML로 저장">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 21h16"/></svg>
+      HTML로 다운로드
+    </button>
+  </div>
+
+  <div class="header-banner">
+    <div class="headerbar">
+      <div class="title-block">
+        <h1 contenteditable="true" spellcheck="false">건설고도화 추진단 업무현황판</h1>
+        <div class="subtitle" contenteditable="true" spellcheck="false">CONSTRUCTION ADVANCEMENT TASK FORCE · DASHBOARD</div>
+      </div>
+      <div class="meta">
+        <div class="item"><label>소속</label><div contenteditable="true" spellcheck="false">건설고도화 추진단</div></div>
+        <div class="item"><label>기준일자</label><div contenteditable="true" spellcheck="false">2026년 08월 기준</div></div>
+        <div class="item status-item"><label>운영상태</label><div contenteditable="true" spellcheck="false"><span class="status-dot"></span>실시간 연동 관리 중</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card" id="commonAggPanel">
+      <div class="panel-title"><span class="bar"></span>📊 공통업무분장 집계</div>
+      <div class="kpi-row" id="commonAgg"></div>
+      <div class="person-break">
+        <div class="person-break-title">개인별 업무현황</div>
+        <div id="commonByPerson"></div>
+      </div>
+    </div>
+
+    <div class="card" id="personalAggPanel">
+      <div class="panel-title"><span class="bar"></span>📊 개인별 업무분장 집계</div>
+      <div class="kpi-row" id="personalAgg"></div>
+      <div class="person-break">
+        <div class="person-break-title">개인별 업무현황</div>
+        <div id="personByPerson"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grid">
+
+    <div class="card" id="commonPanel">
+      <div class="panel-title"><span class="bar"></span>📌 공통업무분장 <span class="en">Common Tasks</span></div>
+      <div class="person-tabs" id="commonTabs"></div>
+      <div class="table-scroll-5">
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2">담당자</th>
+            <th rowspan="2" style="width:44%">업무내용</th>
+            <th rowspan="2" style="width:14%">상태</th>
+            <th rowspan="2" class="row-actions"></th>
+          </tr>
+          <tr>
+            <th class="th-sub" style="width:15%">정</th>
+            <th class="th-sub" style="width:15%">부</th>
+          </tr>
+        </thead>
+        <tbody id="commonBody">
+          <tr data-item="전체회의준비">
+            <td class="staff-td"></td>
+            <td class="staff-td"></td>
+            <td contenteditable="true">건설고도화 마스터플랜 수립 및 이행 점검 (중장기 로드맵 / 이행률)</td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+          <tr data-item="현장 및 협력회사 기술인터뷰">
+            <td class="staff-td"></td>
+            <td class="staff-td"></td>
+            <td contenteditable="true">BIM, AI, 건설로봇 기술 현장 적용 및 확산 (스마트기술 가이드라인)</td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+          <tr data-item="기타추진단 업무">
+            <td class="staff-td"></td>
+            <td class="staff-td"></td>
+            <td contenteditable="true">고도화 품질 점검 체계 구축 및 안전 가이드 수립 (점검 매뉴얼 V2.0)</td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+          <tr data-item="기타추진단 업무">
+            <td class="staff-td"></td>
+            <td class="staff-td"></td>
+            <td contenteditable="true">건설기준(KDS/KCS) 개정 및 관련 법제도 검토 (시방서/기준 개정안)</td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+          <tr data-item="전체회의준비">
+            <td class="staff-td"></td>
+            <td class="staff-td"></td>
+            <td contenteditable="true">산·학·연 협의체 운영 및 성과공유회 개최 (세미나 / 성과집 발간)</td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <button class="add-row-btn" data-target="commonBody" data-type="common">+ 공통업무 행 추가</button>
+    </div>
+
+    <div class="card" id="personalPanel">
+      <div class="panel-title"><span class="bar"></span>👤 개인별 업무현황 <span class="en">Personal Tasks</span></div>
+      <div class="person-tabs" id="personTabs"></div>
+      <div id="leaderRequests"></div>
+      <div class="table-scroll-5">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:24%">기간</th>
+            <th style="width:58%">업무추진내용</th>
+            <th style="width:18%">상태</th>
+            <th class="row-actions"></th>
+          </tr>
+        </thead>
+        <tbody id="personalBody">
+          <tr data-person="김용권">
+            <td class="period-td"><input type="month" class="period-input"></td>
+            <td><ul class="task-list"><li contenteditable="true">건설고도화 추진단 총괄 운영 및 대외협력</li><li contenteditable="true">마스터플랜 최종 심의 및 성과 점검</li></ul></td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+          <tr data-person="나종운">
+            <td class="period-td"><input type="month" class="period-input"></td>
+            <td><ul class="task-list"><li contenteditable="true">구조물 균열 및 피복두께 점검 기준 고도화</li><li contenteditable="true">현장 품질점검 종합 현황판 표준화 및 검증</li></ul></td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+          <tr data-person="백영수">
+            <td class="period-td"><input type="month" class="period-input"></td>
+            <td><ul class="task-list"><li contenteditable="true">BIM 기반 시공상세도(Shop Drawing) 검토 자동화</li><li contenteditable="true">로봇/자동화 장비 현장 시범적용 실증</li></ul></td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+          <tr data-person="신성근">
+            <td class="period-td"><input type="month" class="period-input"></td>
+            <td><ul class="task-list"><li contenteditable="true">KS 규격 자재 및 성적서 검증 자동화 프로그램 도입</li><li contenteditable="true">가설구조물(동바리, 거푸집) 안전성 검토 가이드</li></ul></td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+          <tr data-person="정윤종">
+            <td class="period-td"><input type="month" class="period-input"></td>
+            <td><ul class="task-list"><li contenteditable="true">건설고도화 관련 법령 및 기술기준 모니터링</li><li contenteditable="true">추진단 실시간 웹 대시보드(Looker Studio) 연동</li></ul></td>
+            <td></td>
+            <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <button class="add-row-btn" data-target="personalBody" data-type="personal">+ 개인업무 행 추가</button>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="note">
+      <span class="ico">💡</span>
+      <div><b>운용 참고사항:</b> <span contenteditable="true" spellcheck="false">본 전자문서는 건설고도화 추진단의 공통 과제와 개인별 업무분장을 분할 표시한 전자 현황판입니다. 세부 조직 구성 및 담당자 변경 시 업데이트하여 재발행이 가능합니다. 표의 각 칸을 클릭하면 바로 수정할 수 있으며, 상태 배지를 클릭하면 값이 순환됩니다.</span></div>
+    </div>
+  </div>
+
+  <div class="footer-hint">칸을 클릭해 바로 수정하고, 상태 배지를 클릭해 진행 상태를 바꿀 수 있습니다 · 완료 후 우측 상단 "HTML로 다운로드"로 저장하세요</div>
+
+  </div><!-- /page-dashboard -->
+
+  <div id="page-schedule" class="app-page">
+    <div class="sheet" id="sheet">
+
+  <div class="sch-toolbar">
+    <div class="hint">칸을 클릭하면 수정, 드래그하면 이동(같은 날짜 안에서는 위아래 순서 변경), Ctrl(또는 ⌘)을 누른 채 드래그하면 복사됩니다. 같은 일정이 연속된 날짜에 놓이면 하나로 합쳐 표시됩니다. <span id="save-status" style="color:#9FD6A8;"></span></div>
+    <div class="actions">
+      <div class="month-nav">
+        <button id="btn-prev-month" type="button" title="전월 일정 확인/작성">◀ 전월</button>
+        <span id="month-label" class="month-label"></span>
+        <button id="btn-next-month" type="button" title="익월 일정 확인/작성">익월 ▶</button>
+      </div>
+      <button id="btn-print" type="button">인쇄 / PDF 저장</button>
+      <button id="btn-reset" type="button" class="primary">초기 상태로 되돌리기</button>
+    </div>
+  </div>
+
+  <header class="doc">
+    <div class="row1">
+      <div class="doc-title" id="doc-title" contenteditable="true">건설고도화 추진단 회의 및 출장일정표</div>
+      <div class="doc-meta">
+        문서번호: <span id="meta-docnum" contenteditable="true">HDQA-FM-137-REV.1</span><br>
+        작성부서: <span id="meta-dept" contenteditable="true">건설고도화 추진단</span> | 기준일자: <span id="meta-date" contenteditable="true">2026-08-01</span>
+      </div>
+    </div>
+    <div class="company">IPARK현대산업개발 건설고도화 추진단</div>
+  </header>
+
+  <div class="summary" id="summary">
+    <div class="stat total">
+      <div class="label">회의 총계</div>
+      <div class="value" id="stat-meeting">0건</div>
+    </div>
+    <div class="stat total-trip">
+      <div class="label">출장 총계</div>
+      <div class="value" id="stat-trip">0건</div>
+    </div>
+    <div class="stat" style="border-left-color:var(--sch-semina-fg); background:var(--sch-semina-bg);">
+      <div class="label" style="color:var(--sch-semina-fg);">주간업무회의</div>
+      <div class="value" id="stat-weekly">0건</div>
+    </div>
+    <div class="stat" style="border-left-color:var(--sch-special-fg); background:var(--sch-special-bg);">
+      <div class="label" style="color:var(--sch-special-fg);">경영진회의</div>
+      <div class="value" id="stat-exec">0건</div>
+    </div>
+    <div class="stat" style="border-left-color:var(--sch-iso-fg); background:var(--sch-iso-bg);">
+      <div class="label" style="color:var(--sch-iso-fg);">외부회의</div>
+      <div class="value" id="stat-extmeet">0건</div>
+    </div>
+    <div class="stat" style="border-left-color:var(--sch-wanju-fg); background:var(--sch-wanju-bg);">
+      <div class="label" style="color:var(--sch-wanju-fg);">내부회의</div>
+      <div class="value" id="stat-intmeet">0건</div>
+    </div>
+    <div class="stat" style="border-left-color:var(--sch-target-fg); background:var(--sch-target-bg);">
+      <div class="label" style="color:var(--sch-target-fg);">현장출장</div>
+      <div class="value" id="stat-sitetrip">0건</div>
+    </div>
+    <div class="stat" style="border-left-color:var(--sch-mh-fg); background:var(--sch-mh-bg);">
+      <div class="label" style="color:var(--sch-mh-fg);">외부업체출장</div>
+      <div class="value" id="stat-exttrip">0건</div>
+    </div>
+  </div>
+
+  <div class="cal-wrap">
+    <div class="cal-inner">
+      <div class="cal-head">
+        <div>月 (Mon)</div>
+        <div>火 (Tue)</div>
+        <div>水 (Wed)</div>
+        <div>木 (Thu)</div>
+        <div>金 (Fri)</div>
+      </div>
+      <div id="weeks-container"></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="item"><span class="chip" style="background:var(--sch-semina-bg);border:1px solid var(--sch-semina-fg)"></span>주간업무회의</div>
+    <div class="item"><span class="chip" style="background:var(--sch-special-bg);border:1px solid var(--sch-special-fg)"></span>경영진회의</div>
+    <div class="item"><span class="chip" style="background:var(--sch-iso-bg);border:1px solid var(--sch-iso-fg)"></span>외부회의</div>
+    <div class="item"><span class="chip" style="background:var(--sch-wanju-bg);border:1px solid var(--sch-wanju-fg)"></span>내부회의</div>
+    <div class="item"><span class="chip" style="background:var(--sch-target-bg);border:1px solid var(--sch-target-fg)"></span>현장출장</div>
+    <div class="item"><span class="chip" style="background:var(--sch-mh-bg);border:1px solid var(--sch-mh-fg)"></span>외부업체출장</div>
+    <div class="item"><span class="chip" style="background:var(--sch-holiday-bg);border:1px solid var(--sch-holiday-fg)"></span>휴일</div>
+  </div>
+
+  <footer class="sch-foot-note" id="footer-note" contenteditable="true">* 본 점검 일정표는 전자 문서용 초안이며, 변경 시 업데이트될 예정입니다.</footer>
+</div>
+  </div><!-- /page-schedule -->
+
+</div>
+
+<script>
+(function(){
+  var STATUS_CYCLE = ["진행중","완료","보류"];
+  var ITEM_OPTIONS = ["전체회의준비","현장 및 협력회사 기술인터뷰","기타추진단 업무"];
+  var STAFF_OPTIONS = ["문성준","김용권","백영수","나종운","신성근","정윤종","김지현","임시내","김진교","이현경"];
+  var PERSON_NAME_OPTIONS = ["김용권","나종운","백영수","신성근","정윤종"];
+
+  var activePerson = PERSON_NAME_OPTIONS[0];
+
+  function renderPersonTabs(){
+    var el = document.getElementById("personTabs");
+    el.innerHTML = "";
+    PERSON_NAME_OPTIONS.forEach(function(name, i){
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "person-tab person-tab-c" + (i % 5) + (name === activePerson ? " active" : "");
+      btn.textContent = name;
+      btn.addEventListener("click", function(){ setActivePerson(name); });
+      el.appendChild(btn);
+    });
+  }
+
+  function capTableScroll(tbodyId, visibleCount){
+    var tbody = document.getElementById(tbodyId);
+    var wrap = tbody.closest(".table-scroll-5");
+    if (!wrap) return;
+    var table = wrap.querySelector("table");
+    var thead = table.querySelector("thead");
+    var rows = Array.prototype.slice.call(tbody.querySelectorAll("tr")).filter(function(tr){
+      return tr.style.display !== "none";
+    });
+    if (rows.length <= visibleCount){
+      wrap.style.maxHeight = "none";
+      return;
+    }
+    var headerHeight = thead.getBoundingClientRect().height;
+    var rowsHeight = rows.slice(0, visibleCount).reduce(function(sum, tr){
+      return sum + tr.getBoundingClientRect().height;
+    }, 0);
+    wrap.style.maxHeight = Math.ceil(headerHeight + rowsHeight + 2) + "px";
+  }
+
+  function filterPersonalRows(){
+    document.getElementById("personalBody").querySelectorAll("tr").forEach(function(tr){
+      tr.style.display = (tr.getAttribute("data-person") === activePerson) ? "" : "none";
+    });
+    capTableScroll("personalBody", 5);
+  }
+
+  var LEADER_REQUEST_DEFAULTS = {
+    "김용권": "전체회의 준비 상황 중간 점검 부탁드립니다.",
+    "나종운": "현장 품질점검 결과 정리해서 공유해 주세요.",
+    "백영수": "BIM 검토 자동화 진행 상황 보고 바랍니다.",
+    "신성근": "자재 검증 프로그램 도입 일정 확인 부탁드립니다.",
+    "정윤종": "법령 모니터링 결과 이번 주 내 정리 요청드립니다."
+  };
+
+  function renderLeaderRequests(){
+    var el = document.getElementById("leaderRequests");
+    el.innerHTML = "";
+    PERSON_NAME_OPTIONS.forEach(function(name){
+      var box = document.createElement("div");
+      box.className = "leader-request";
+      box.setAttribute("data-person", name);
+
+      var head = document.createElement("div");
+      head.className = "leader-request-head";
+      var label = document.createElement("div");
+      label.className = "leader-request-label";
+      label.textContent = "📌 팀장 요청사항 · " + name;
+      var editBtn = document.createElement("button");
+      editBtn.type = "button";
+      editBtn.className = "leader-request-edit-btn";
+      editBtn.textContent = "수정";
+      head.appendChild(label);
+      head.appendChild(editBtn);
+
+      var body = document.createElement("div");
+      body.className = "leader-request-body";
+      body.contentEditable = "false";
+      body.spellcheck = false;
+      body.textContent = LEADER_REQUEST_DEFAULTS[name] || "팀장 요청사항을 입력하세요.";
+
+      var actions = document.createElement("div");
+      actions.className = "leader-request-actions";
+      actions.style.display = "none";
+      var cancelBtn = document.createElement("button");
+      cancelBtn.type = "button";
+      cancelBtn.className = "btn";
+      cancelBtn.textContent = "취소";
+      var saveBtn = document.createElement("button");
+      saveBtn.type = "button";
+      saveBtn.className = "btn primary";
+      saveBtn.textContent = "저장";
+      actions.appendChild(cancelBtn);
+      actions.appendChild(saveBtn);
+
+      var originalText = body.textContent;
+
+      function enterEditMode(){
+        originalText = body.textContent;
+        body.contentEditable = "true";
+        body.focus();
+        document.execCommand && document.execCommand("selectAll", false, null);
+        editBtn.style.display = "none";
+        actions.style.display = "flex";
+      }
+      function exitEditMode(){
+        body.contentEditable = "false";
+        editBtn.style.display = "";
+        actions.style.display = "none";
+      }
+      editBtn.addEventListener("click", enterEditMode);
+      cancelBtn.addEventListener("click", function(){
+        body.textContent = originalText;
+        exitEditMode();
+      });
+      saveBtn.addEventListener("click", function(){
+        exitEditMode();
+      });
+
+      box.appendChild(head);
+      box.appendChild(body);
+      box.appendChild(actions);
+      el.appendChild(box);
+    });
+  }
+
+  function filterLeaderRequests(){
+    document.querySelectorAll("#leaderRequests .leader-request").forEach(function(box){
+      box.style.display = (box.getAttribute("data-person") === activePerson) ? "" : "none";
+    });
+  }
+
+  function setActivePerson(name){
+    activePerson = name;
+    document.querySelectorAll(".person-tab").forEach(function(btn){
+      btn.classList.toggle("active", btn.textContent === name);
+    });
+    filterPersonalRows();
+    filterLeaderRequests();
+  }
+
+  function makeStaffSelect(selected){
+    var sel = document.createElement("select");
+    sel.className = "staff-select";
+    STAFF_OPTIONS.forEach(function(name){
+      var o = document.createElement("option");
+      o.value = name;
+      o.textContent = name;
+      if (name === selected) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener("change", updateSummary);
+    return sel;
+  }
+
+  var activeCommonItem = ITEM_OPTIONS[0];
+
+  function renderCommonTabs(){
+    var el = document.getElementById("commonTabs");
+    el.innerHTML = "";
+    ITEM_OPTIONS.forEach(function(item, i){
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "person-tab person-tab-c" + (i % 5) + (item === activeCommonItem ? " active" : "");
+      btn.textContent = item;
+      btn.addEventListener("click", function(){ setActiveCommonItem(item); });
+      el.appendChild(btn);
+    });
+  }
+
+  function filterCommonRows(){
+    document.getElementById("commonBody").querySelectorAll("tr").forEach(function(tr){
+      tr.style.display = (tr.getAttribute("data-item") === activeCommonItem) ? "" : "none";
+    });
+    capTableScroll("commonBody", 5);
+  }
+
+  function setActiveCommonItem(item){
+    activeCommonItem = item;
+    document.querySelectorAll("#commonTabs .person-tab").forEach(function(btn){
+      btn.classList.toggle("active", btn.textContent === item);
+    });
+    filterCommonRows();
+  }
+
+  function renumberCommon(){
+    document.getElementById("commonBody").querySelectorAll("tr").forEach(function(tr, i){
+      var noTd = tr.querySelector(".row-no");
+      if (noTd) noTd.textContent = i + 1;
+    });
+  }
+
+  function makeBadge(status){
+    var b = document.createElement("button");
+    b.className = "badge " + status;
+    b.type = "button";
+    b.textContent = status;
+    b.setAttribute("data-status", status);
+    b.addEventListener("click", cycleStatus);
+    return b;
+  }
+
+  function cycleStatus(e){
+    var btn = e.currentTarget;
+    var cur = btn.getAttribute("data-status");
+    var idx = STATUS_CYCLE.indexOf(cur);
+    var next = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
+    btn.className = "badge " + next;
+    btn.setAttribute("data-status", next);
+    btn.textContent = next;
+    updateSummary();
+  }
+
+  var AGG_ORDER = [["전체","total"],["진행중","진행중"],["완료","완료"],["보류","보류"]];
+
+  function computeAgg(tbody){
+    var counts = {전체:0,진행중:0,완료:0,보류:0};
+    var rows = tbody.querySelectorAll("tr");
+    counts.전체 = rows.length;
+    rows.forEach(function(tr){
+      var badge = tr.querySelector(".badge");
+      if (badge){
+        var st = badge.getAttribute("data-status");
+        if (counts.hasOwnProperty(st)) counts[st]++;
+      }
+    });
+    return counts;
+  }
+
+  function renderAgg(containerId, counts){
+    var el = document.getElementById(containerId);
+    el.innerHTML = "";
+    AGG_ORDER.forEach(function(pair){
+      var key = pair[0], cls = pair[1];
+      var tile = document.createElement("div");
+      tile.className = "kpi-tile " + cls;
+      tile.innerHTML = '<div class="kpi-val">' + counts[key] + '</div><div class="kpi-lab">' + key + '</div>';
+      el.appendChild(tile);
+    });
+  }
+
+  function computePersonBreakdown(){
+    var map = {};
+    PERSON_NAME_OPTIONS.forEach(function(name){
+      map[name] = {total:0,진행중:0,완료:0,보류:0};
+    });
+    document.getElementById("personalBody").querySelectorAll("tr").forEach(function(tr){
+      var name = tr.getAttribute("data-person");
+      if (!name || !map[name]) return;
+      map[name].total++;
+      var badge = tr.querySelector(".badge");
+      if (badge){
+        var st = badge.getAttribute("data-status");
+        if (map[name].hasOwnProperty(st)) map[name][st]++;
+      }
+    });
+    return map;
+  }
+
+  function renderPersonBreakdown(){
+    var map = computePersonBreakdown();
+    var cols = ["진행중","완료","보류"];
+    var html = '<div class="person-mini-wrap">';
+    PERSON_NAME_OPTIONS.forEach(function(name, i){
+      var d = map[name];
+      var pct = d.total > 0 ? Math.round((d.완료 / d.total) * 100) : 0;
+      html += '<table class="person-table person-mini">';
+      html += '<thead><tr><th class="mini-name mini-c' + (i % 5) + '">' + name + '</th><th>건수</th><th>진행중</th><th>완료</th><th>보류</th></tr></thead>';
+      html += '<tbody><tr><td class="mini-label">실적 ' + pct + '%</td><td class="mini-count">' + d.total + '</td>';
+      cols.forEach(function(c){
+        var v = d[c];
+        html += '<td class="' + c + (v > 0 ? ' count-nonzero' : '') + '">' + v + '</td>';
+      });
+      html += '</tr></tbody></table>';
+    });
+    html += '</div>';
+    document.getElementById("personByPerson").innerHTML = html;
+  }
+
+  function computeCommonPersonBreakdown(){
+    var map = {};
+    STAFF_OPTIONS.forEach(function(name){
+      map[name] = {정:0,부:0,total:0,진행중:0,완료:0,보류:0};
+    });
+    document.getElementById("commonBody").querySelectorAll("tr").forEach(function(tr){
+      var staffSelects = tr.querySelectorAll(".staff-select");
+      var mainName = staffSelects[0] ? staffSelects[0].value : null;
+      var deputyName = staffSelects[1] ? staffSelects[1].value : null;
+      var badge = tr.querySelector(".badge");
+      var st = badge ? badge.getAttribute("data-status") : null;
+      if (mainName && map[mainName]){
+        map[mainName].정++;
+        map[mainName].total++;
+        if (st && map[mainName].hasOwnProperty(st)) map[mainName][st]++;
+      }
+      if (deputyName && map[deputyName]){
+        map[deputyName].부++;
+        map[deputyName].total++;
+        if (st && map[deputyName].hasOwnProperty(st)) map[deputyName][st]++;
+      }
+    });
+    return map;
+  }
+
+  function renderCommonPersonBreakdown(){
+    var map = computeCommonPersonBreakdown();
+    var cols = ["진행중","완료","보류"];
+    var html = '<table class="person-table"><thead><tr><th>성명</th><th>정</th><th>부</th><th>건수</th>';
+    cols.forEach(function(c){ html += '<th>' + c + '</th>'; });
+    html += '</tr></thead><tbody>';
+    STAFF_OPTIONS.forEach(function(name){
+      var d = map[name];
+      if (d.total === 0) return;
+      html += '<tr><td class="person-name">' + name + '</td><td>' + d.정 + '</td><td>' + d.부 + '</td><td>' + d.total + '</td>';
+      cols.forEach(function(c){
+        var v = d[c];
+        html += '<td class="' + c + (v > 0 ? ' count-nonzero' : '') + '">' + v + '</td>';
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    document.getElementById("commonByPerson").innerHTML = html;
+  }
+
+  function updateSummary(){
+    renderAgg("commonAgg", computeAgg(document.getElementById("commonBody")));
+    renderAgg("personalAgg", computeAgg(document.getElementById("personalBody")));
+    renderCommonPersonBreakdown();
+    renderPersonBreakdown();
+  }
+
+  // seed initial statuses (matches original document)
+  var commonStatuses = ["진행중","진행중","완료","보류","진행중"];
+  var commonItems = ["전체회의준비","현장 및 협력회사 기술인터뷰","기타추진단 업무","기타추진단 업무","전체회의준비"];
+  var personalStatuses = ["진행중","진행중","진행중","완료","보류"];
+
+  function seed(tbodyId, statuses){
+    var rows = document.getElementById(tbodyId).querySelectorAll("tr");
+    rows.forEach(function(tr, i){
+      var tds = tr.querySelectorAll("td");
+      var statusTd = tds[tds.length - 2]; // second to last (before row-actions)
+      if (statusTd && !statusTd.querySelector(".badge")){
+        statusTd.appendChild(makeBadge(statuses[i] || "진행중"));
+      }
+    });
+  }
+  seed("commonBody", commonStatuses);
+  seed("personalBody", personalStatuses);
+
+  // set up name tabs for personal table
+  renderPersonTabs();
+  filterPersonalRows();
+  renderLeaderRequests();
+  filterLeaderRequests();
+
+  // seed staff selects for common table (담당자 정/부)
+  var commonStaff = [
+    ["문성준","김용권"],
+    ["백영수","나종운"],
+    ["신성근","정윤종"],
+    ["김지현","임시내"],
+    ["김진교","이현경"]
+  ];
+  document.getElementById("commonBody").querySelectorAll("tr").forEach(function(tr, i){
+    var tds = tr.querySelectorAll("td");
+    var mainTd = tds[0];
+    var deputyTd = tds[1];
+    var pair = commonStaff[i] || [STAFF_OPTIONS[0], STAFF_OPTIONS[1]];
+    if (mainTd && !mainTd.querySelector(".staff-select")){
+      mainTd.appendChild(makeStaffSelect(pair[0]));
+    }
+    if (deputyTd && !deputyTd.querySelector(".staff-select")){
+      deputyTd.appendChild(makeStaffSelect(pair[1]));
+    }
+  });
+
+  // set up item tabs for common table
+  renderCommonTabs();
+  filterCommonRows();
+
+  function attachDelete(btn){
+    btn.addEventListener("click", function(){
+      var tr = btn.closest("tr");
+      var tbody = tr.parentElement;
+      if (tbody.querySelectorAll("tr").length <= 1){
+        alert("최소 한 개의 행은 남아 있어야 합니다.");
+        return;
+      }
+      var isCommon = tbody.id === "commonBody";
+      tr.remove();
+      if (isCommon) { renumberCommon(); capTableScroll("commonBody", 5); }
+      else { capTableScroll("personalBody", 5); }
+      updateSummary();
+    });
+  }
+  document.querySelectorAll(".row-actions .icon-btn").forEach(attachDelete);
+
+  function addCommonRow(){
+    var tbody = document.getElementById("commonBody");
+    var tr = document.createElement("tr");
+    tr.setAttribute("data-item", activeCommonItem);
+    tr.innerHTML =
+      '<td class="staff-td"></td>' +
+      '<td class="staff-td"></td>' +
+      '<td contenteditable="true">업무내용을 입력하세요</td>' +
+      '<td></td>' +
+      '<td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>';
+    tbody.appendChild(tr);
+    var tds = tr.querySelectorAll("td");
+    tds[0].appendChild(makeStaffSelect(STAFF_OPTIONS[0]));
+    tds[1].appendChild(makeStaffSelect(STAFF_OPTIONS[1]));
+    tds[3].appendChild(makeBadge("보류"));
+    attachDelete(tr.querySelector(".icon-btn"));
+    filterCommonRows();
+    updateSummary();
+    tds[2].focus();
+  }
+
+  function addPersonalRow(){
+    var tbody = document.getElementById("personalBody");
+    var tr = document.createElement("tr");
+    tr.setAttribute("data-person", activePerson);
+    tr.innerHTML =
+      '<td class="period-td"><input type="month" class="period-input"></td>' +
+      '<td><ul class="task-list"><li contenteditable="true">업무추진내용을 입력하세요</li></ul></td>' +
+      '<td></td>' +
+      '<td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>';
+    tbody.appendChild(tr);
+    tr.querySelector("td:nth-child(3)").appendChild(makeBadge("보류"));
+    attachDelete(tr.querySelector(".icon-btn"));
+    filterPersonalRows();
+    updateSummary();
+    tr.querySelectorAll('[contenteditable="true"]')[0].focus();
+  }
+
+  function isCaretAtLiStart(li){
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return false;
+    var range = sel.getRangeAt(0);
+    if (!range.collapsed) return false;
+    var testRange = document.createRange();
+    testRange.selectNodeContents(li);
+    testRange.setEnd(range.startContainer, range.startOffset);
+    return testRange.toString().length === 0;
+  }
+
+  function placeCaretAt(el, offset){
+    if (!el.firstChild){ el.appendChild(document.createTextNode("")); }
+    var remaining = offset, found = null, foundOffset = 0;
+    (function walk(n){
+      if (found) return;
+      if (n.nodeType === 3){
+        if (remaining <= n.textContent.length){ found = n; foundOffset = remaining; return; }
+        remaining -= n.textContent.length;
+      } else {
+        for (var i = 0; i < n.childNodes.length; i++){ walk(n.childNodes[i]); if (found) return; }
+      }
+    })(el);
+    if (!found){ found = el; foundOffset = el.childNodes.length; }
+    var range = document.createRange();
+    range.setStart(found, foundOffset);
+    range.collapse(true);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    el.focus();
+  }
+
+  function mergeLiWithPrevious(li){
+    var prevLi = li.previousElementSibling;
+    if (!prevLi) return false;
+    var prevLen = prevLi.textContent.length;
+    while (li.firstChild){ prevLi.appendChild(li.firstChild); }
+    li.remove();
+    placeCaretAt(prevLi, prevLen);
+    return true;
+  }
+
+  document.addEventListener("keydown", function(e){
+    if (e.key !== "Backspace") return;
+    var li = e.target.closest && e.target.closest("ul.task-list li[contenteditable]");
+    if (!li) return;
+    if (!isCaretAtLiStart(li)) return;
+    if (!li.previousElementSibling) return;
+    e.preventDefault();
+    mergeLiWithPrevious(li);
+  });
+
+  document.getElementById("btnAddCommon").addEventListener("click", addCommonRow);
+  document.getElementById("btnAddPersonal").addEventListener("click", addPersonalRow);
+  document.querySelector('[data-target="commonBody"]').addEventListener("click", addCommonRow);
+  document.querySelector('[data-target="personalBody"]').addEventListener("click", addPersonalRow);
+
+  updateSummary();
+
+  document.getElementById("btnPrint").addEventListener("click", function(){
+    window.print();
+  });
+
+  document.getElementById("btnDownload").addEventListener("click", function(){
+    var clone = document.documentElement.cloneNode(true);
+    var html = "<!DOCTYPE html>\n" + clone.outerHTML;
+    var blob = new Blob([html], {type: "text/html;charset=utf-8"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "건설고도화_추진단_업무현황판.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  });
+
+  document.querySelectorAll(".nav-tab").forEach(function(tab){
+    tab.addEventListener("click", function(){
+      var target = tab.getAttribute("data-page");
+      document.querySelectorAll(".nav-tab").forEach(function(t){ t.classList.toggle("active", t === tab); });
+      document.querySelectorAll(".app-page").forEach(function(p){ p.classList.toggle("active", p.id === target); });
+    });
+  });
+
+  var noticeOverlay = document.getElementById("noticeOverlay");
+  var noticeBody = document.getElementById("noticeBody");
+  var noticeSkippedToday = false;
+  function openNotice(){
+    if (noticeSkippedToday) return;
+    noticeBody.setAttribute("contenteditable", "false");
+    noticeOverlay.classList.add("show");
+  }
+  function closeNotice(){ noticeOverlay.classList.remove("show"); }
+  document.getElementById("btnNotice").addEventListener("click", function(){
+    noticeBody.setAttribute("contenteditable", "false");
+    noticeOverlay.classList.add("show");
+  });
+  document.getElementById("noticeClose").addEventListener("click", closeNotice);
+  document.getElementById("noticeCloseBtn").addEventListener("click", closeNotice);
+  document.getElementById("noticeEdit").addEventListener("click", function(){
+    noticeBody.setAttribute("contenteditable", "true");
+    noticeBody.focus();
+  });
+  document.getElementById("noticeSkipToday").addEventListener("click", function(){
+    noticeSkippedToday = true;
+    closeNotice();
+  });
+  noticeOverlay.addEventListener("click", function(e){
+    if (e.target === noticeOverlay) closeNotice();
+  });
+  // 업무현황판 접속 시 공지사항 자동 팝업
+  openNotice();
+})();
+</script>
+<script>
+(function(){
+
+const CATS = {
+  weekly:  { label:'주간업무회의',   cls:'cat-weekly' },
+  exec:    { label:'경영진회의',     cls:'cat-exec' },
+  extmeet: { label:'외부회의',       cls:'cat-extmeet' },
+  intmeet: { label:'내부회의',       cls:'cat-intmeet' },
+  sitetrip:{ label:'현장출장',       cls:'cat-sitetrip' },
+  exttrip: { label:'외부업체출장',   cls:'cat-exttrip' },
+  holiday: { label:'휴일',           cls:'cat-holiday' }
+};
+
+function getRealTodayYM(){
+  const d = new Date();
+  return { year: d.getFullYear(), month: d.getMonth() + 1 };
+}
+const REAL_TODAY = getRealTodayYM();
+let currentYear = REAL_TODAY.year;
+let currentMonth = REAL_TODAY.month;
+let isAutoMonth = true;
+let lastKnownRealYM = REAL_TODAY;
+
+function buildRenderDays(year, month){
+  const firstOfMonth = new Date(year, month-1, 1);
+  const lastOfMonth = new Date(year, month, 0);
+  function mondayOf(d){
+    const dow = d.getDay();
+    const offset = (dow + 6) % 7;
+    const m = new Date(d);
+    m.setDate(m.getDate() - offset);
+    return m;
+  }
+  const start = mondayOf(firstOfMonth);
+  const lastMonday = mondayOf(lastOfMonth);
+  const end = new Date(lastMonday);
+  end.setDate(end.getDate() + 4);
+  const days = [];
+  const cur = new Date(start);
+  while(cur <= end){
+    const dow = cur.getDay();
+    if(dow >= 1 && dow <= 5){
+      const y = cur.getFullYear();
+      const m = String(cur.getMonth()+1).padStart(2,'0');
+      const d = String(cur.getDate()).padStart(2,'0');
+      const outside = !(y === year && (cur.getMonth()+1) === month);
+      days.push({ key: y+'-'+m+'-'+d, wd: dow, outside });
+    }
+    cur.setDate(cur.getDate()+1);
+  }
+  return days;
+}
+
+const WEEKDAY_COUNT = 5;
+let RENDER_DAYS = buildRenderDays(currentYear, currentMonth);
+
+const TARGET_ARCH_TAGS = ['금속천정','조적','도장','석공사','골조1차','골조2차','타일'];
+const TARGET_MEP_TAGS = ['시스템','배관'];
+
+function updateTargetStats(){
+  // 회의: 주간업무회의/경영진회의/외부회의/내부회의, 출장: 현장출장/외부업체출장
+  const MEETING_CATS = ['weekly','exec','extmeet','intmeet'];
+  const TRIP_CATS = ['sitetrip','exttrip'];
+  const counts = {};
+  MEETING_CATS.concat(TRIP_CATS).forEach(cat=>{ counts[cat] = EVENTS.filter(e => e.cat === cat).length; });
+  const meetingCount = MEETING_CATS.reduce((sum,cat)=> sum + counts[cat], 0);
+  const tripCount = TRIP_CATS.reduce((sum,cat)=> sum + counts[cat], 0);
+
+  const setText = (id, text)=>{ const el = document.getElementById(id); if(el) el.textContent = text; };
+  setText('stat-meeting', meetingCount + '건');
+  setText('stat-trip', tripCount + '건');
+  setText('stat-weekly', counts.weekly + '건');
+  setText('stat-exec', counts.exec + '건');
+  setText('stat-extmeet', counts.extmeet + '건');
+  setText('stat-intmeet', counts.intmeet + '건');
+  setText('stat-sitetrip', counts.sitetrip + '건');
+  setText('stat-exttrip', counts.exttrip + '건');
+}
+
+function mkEvent(id, gid, date, cat, tag, site, people){
+  return { id, gid, date, cat, tag, site, people: people || '' };
+}
+
+const DEFAULT_EVENTS = [
+  mkEvent('e1','g1','2026-08-03','extmeet','기술세미나','코리아빌드 견학','박정호, 신성근, 한진헌, 류지수'),
+  mkEvent('e2','g2','2026-08-04','sitetrip','M/H','시티오씨엘 9단지','박정호, 신성근, 한진헌, 류지수'),
+  mkEvent('e3','g3','2026-08-09','sitetrip','TARGET:금속천정','익산부송아이파크','신성근'),
+  mkEvent('e4','g4','2026-08-10','sitetrip','TARGET:골조1차','현대해상일산사옥','박찬우, 신성근'),
+  mkEvent('e5','g5','2026-08-11','sitetrip','TARGET:시스템','청주가경6단지','한진헌, 류지수'),
+  mkEvent('e6','g6','2026-08-12','sitetrip','적기','파주메디컬클러스터','배준호'),
+  mkEvent('e7','g7','2026-08-17','holiday','','대체공휴일',''),
+  mkEvent('e8','g8','2026-08-18','exttrip','ISO','현대해상일산 / 파주메디컬','이희윤'),
+  mkEvent('e9','g9','2026-08-19','sitetrip','TARGET:골조2차','시티오씨엘 7단지','신성근, 이정호, 박찬우'),
+  mkEvent('e10','g10','2026-08-24','sitetrip','TARGET:도장','광주센테니얼아이파크','이정호, 박정호'),
+  mkEvent('e11','g11','2026-08-25','sitetrip','TARGET:시스템','광주센테니얼','한진헌, 류지수'),
+  mkEvent('e12','g12','2026-08-26','sitetrip','적기','송도역세권 부지조성','배춘호'),
+  mkEvent('e13','g13','2026-08-26','exttrip','ISO','송도역세권 부지조성','이희윤'),
+  mkEvent('e14','g14','2026-08-27','sitetrip','TARGET:골조1차','태화강센트럴','박정호, 박찬우'),
+  mkEvent('e15','g15','2026-08-31','exttrip','ISO','광주센테니얼아이파크','이희윤'),
+  mkEvent('e16','g16','2026-08-31','sitetrip','TARGET:골조1차','서울원 CB','신성근, 이정호'),
+  mkEvent('e17','g17','2026-08-31','exttrip','ISO','서울원 CB','이희윤')
+];
+
+function getDefaultEventsFor(year, month){
+  if(year === 2026 && month === 8) return JSON.parse(JSON.stringify(DEFAULT_EVENTS));
+  return [];
+}
+
+let EVENTS = [];
+let idCounter = 1;
+let gidCounter = 1;
+let dragCtx = null;
+
+const FIREBASE_URL = 'https://qualityschedule-board-default-rtdb.firebaseio.com';
+const TEXT_FIELD_IDS = ['doc-title','meta-docnum','meta-dept','meta-date','footer-note'];
+const MANUAL_STAT_IDS = [];
+const AUGUST_2026_TEXT_VALUES = {};
+TEXT_FIELD_IDS.concat(MANUAL_STAT_IDS).forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) AUGUST_2026_TEXT_VALUES[id] = el.textContent;
+});
+function blankTextFieldsFor(year, month){
+  const pad = String(month).padStart(2,'0');
+  return {
+    'doc-title': year + '年 ' + pad + '月 건설고도화 추진단 회의 및 출장일정표',
+    'meta-docnum': AUGUST_2026_TEXT_VALUES['meta-docnum'],
+    'meta-dept': AUGUST_2026_TEXT_VALUES['meta-dept'],
+    'meta-date': year + '-' + pad + '-01',
+    'footer-note': AUGUST_2026_TEXT_VALUES['footer-note']
+  };
+}
+function getDefaultTextFieldsFor(year, month){
+  if(year === 2026 && month === 8) return AUGUST_2026_TEXT_VALUES;
+  return blankTextFieldsFor(year, month);
+}
+function applyDefaultTextFields(year, month){
+  const vals = getDefaultTextFieldsFor(year, month);
+  Object.keys(vals).forEach(id=>{ const el = document.getElementById(id); if(el) el.textContent = vals[id]; });
+}
+function updateMonthLabel(){
+  const el = document.getElementById('month-label');
+  if(el) el.textContent = currentYear + '년 ' + String(currentMonth).padStart(2,'0') + '월' + (isAutoMonth ? ' · 자동' : '');
+}
+function resetLocalStateForMonth(year, month){
+  RENDER_DAYS = buildRenderDays(year, month);
+  EVENTS = getDefaultEventsFor(year, month);
+  idCounter = EVENTS.length + 1;
+  gidCounter = EVENTS.length + 1;
+  applyDefaultTextFields(year, month);
+  updateMonthLabel();
+}
+
+let saveTimer = null;
+let pendingRemoteData = null;
+let dbRef = null;
+
+function setSaveStatus(msg){
+  const el = document.getElementById('save-status');
+  if(el) el.textContent = msg;
+}
+function buildStatePayload(){
+  const manualStats = {};
+  MANUAL_STAT_IDS.forEach(id=>{ const el = document.getElementById(id); if(el) manualStats[id] = el.textContent; });
+  const textFields = {};
+  TEXT_FIELD_IDS.forEach(id=>{ const el = document.getElementById(id); if(el) textFields[id] = el.textContent; });
+  return { events: EVENTS, idCounter, gidCounter, manualStats, textFields, updatedAt: Date.now() };
+}
+function applyStatePayload(data){
+  if(!data) return;
+  if(Array.isArray(data.events)) EVENTS = data.events;
+  if(typeof data.idCounter === 'number') idCounter = data.idCounter;
+  if(typeof data.gidCounter === 'number') gidCounter = data.gidCounter;
+  if(data.manualStats) Object.keys(data.manualStats).forEach(id=>{ const el = document.getElementById(id); if(el) el.textContent = data.manualStats[id]; });
+  if(data.textFields) Object.keys(data.textFields).forEach(id=>{ const el = document.getElementById(id); if(el) el.textContent = data.textFields[id]; });
+}
+function isUserEditing(){
+  const ae = document.activeElement;
+  return !!(ae && ae.isContentEditable);
+}
+function saveState(){
+  if(!dbRef) return;
+  setSaveStatus('저장 중…');
+  dbRef.set(buildStatePayload())
+    .then(()=> setSaveStatus('저장됨 · ' + new Date().toLocaleTimeString('ko-KR')))
+    .catch(()=> setSaveStatus('저장 실패 (네트워크 확인)'));
+}
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  setSaveStatus('저장 중…');
+  saveTimer = setTimeout(saveState, 700);
+}
+function renderAndSave(){
+  render();
+  scheduleSave();
+}
+function applyPendingRemoteIfIdle(){
+  if(pendingRemoteData && !isUserEditing()){
+    applyStatePayload(pendingRemoteData);
+    pendingRemoteData = null;
+    render();
+    setSaveStatus('실시간 동기화됨 · ' + new Date().toLocaleTimeString('ko-KR'));
+  }
+}
+let fbApp = null;
+function ensureFirebaseApp(){
+  if(!fbApp){
+    fbApp = firebase.initializeApp({ databaseURL: FIREBASE_URL });
+  }
+}
+function currentStateKey(){
+  if(currentYear === 2026 && currentMonth === 8) return 'state';
+  return 'state-' + currentYear + '-' + String(currentMonth).padStart(2,'0');
+}
+function initRealtimeSync(){
+  try{
+    ensureFirebaseApp();
+    if(dbRef) dbRef.off();
+    dbRef = firebase.database().ref(currentStateKey());
+    setSaveStatus('연결 중…');
+    dbRef.on('value', (snapshot)=>{
+      const data = snapshot.val();
+      if(!data){ setSaveStatus('저장된 데이터 없음 · 최초 저장 대기'); render(); return; }
+      if(isUserEditing()){ pendingRemoteData = data; return; }
+      applyStatePayload(data);
+      render();
+      setSaveStatus('실시간 동기화됨 · ' + new Date().toLocaleTimeString('ko-KR'));
+    }, ()=>{
+      setSaveStatus('연결 실패 · 로컬 데이터로 시작');
+      render();
+    });
+  }catch(err){
+    setSaveStatus('Firebase 연결 불가 · 로컬 데이터로 시작');
+    render();
+  }
+}
+function goToMonth(year, month, opts){
+  const auto = !!(opts && opts.auto);
+  currentYear = year;
+  currentMonth = month;
+  if(!auto) isAutoMonth = false;
+  resetLocalStateForMonth(currentYear, currentMonth);
+  pendingRemoteData = null;
+  initRealtimeSync();
+}
+function shiftMonth(delta){
+  let m = currentMonth + delta;
+  let y = currentYear;
+  if(m < 1){ m = 12; y -= 1; }
+  if(m > 12){ m = 1; y += 1; }
+  goToMonth(y, m);
+}
+function checkAutoMonthRollover(){
+  const now = getRealTodayYM();
+  if(now.year === lastKnownRealYM.year && now.month === lastKnownRealYM.month) return;
+  lastKnownRealYM = now;
+  if(isAutoMonth){
+    goToMonth(now.year, now.month, { auto:true });
+  }
+}
+
+function newId(){ return 'e' + (idCounter++); }
+function newGid(){ return 'g' + (gidCounter++); }
+
+function addDays(key, n){
+  const d = new Date(key + 'T00:00:00');
+  d.setDate(d.getDate() + n);
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return y + '-' + m + '-' + day;
+}
+function dayIndexOf(key){ return RENDER_DAYS.findIndex(d => d.key === key); }
+function isValidKey(key){ return dayIndexOf(key) !== -1; }
+
+function closeAnyPicker(){ const p = document.querySelector('.picker'); if(p) p.remove(); }
+
+function openPicker(btn, dateKey){
+  closeAnyPicker();
+  const picker = document.createElement('div');
+  picker.className = 'picker';
+  const CAT_FG_VAR = {
+    weekly:'sch-semina-fg', exec:'sch-special-fg', extmeet:'sch-iso-fg', intmeet:'sch-wanju-fg',
+    sitetrip:'sch-target-fg', exttrip:'sch-mh-fg', holiday:'sch-holiday-fg'
+  };
+  Object.keys(CATS).forEach(catKey=>{
+    const c = CATS[catKey];
+    const fgVar = CAT_FG_VAR[catKey] || 'sch-holiday-fg';
+    const b = document.createElement('button');
+    b.innerHTML = '<span class="swatch" style="background:var(--'+fgVar+')"></span>' + (c.label || '휴일/공지');
+    b.onclick = (e)=>{ e.stopPropagation(); addEvent(dateKey, catKey); closeAnyPicker(); };
+    picker.appendChild(b);
+  });
+  btn.parentElement.appendChild(picker);
+  picker.style.top = (btn.offsetTop - 4) + 'px';
+  picker.style.left = '4px';
+  setTimeout(()=>{ document.addEventListener('click', closeAnyPicker, { once:true }); },0);
+}
+
+function addEvent(dateKey, catKey){
+  const c = CATS[catKey];
+  EVENTS.push(mkEvent(
+    newId(), newGid(), dateKey, catKey,
+    catKey === 'holiday' ? '' : c.label,
+    catKey === 'holiday' ? '새 공지' : '시간 및 장소',
+    catKey === 'holiday' ? '' : '담당자'
+  ));
+  renderAndSave();
+}
+
+function removeIds(ids){
+  const set = new Set(ids);
+  EVENTS = EVENTS.filter(e => !set.has(e.id));
+}
+
+function layoutWeek(weekDays){
+  const dayEvents = weekDays.map(dk => EVENTS.filter(e => e.date === dk));
+  const visited = new Set();
+  const segments = [];
+  const n = weekDays.length;
+  for(let d=0; d<n; d++){
+    for(const e of dayEvents[d]){
+      if(visited.has(e.id)) continue;
+      let span = 1;
+      const ids = [e.id];
+      let curDay = d;
+      while(true){
+        const nextDay = curDay + 1;
+        if(nextDay >= n) break;
+        const match = dayEvents[nextDay].find(ev2 => ev2.gid === e.gid && !visited.has(ev2.id));
+        if(!match) break;
+        ids.push(match.id);
+        visited.add(match.id);
+        span++;
+        curDay = nextDay;
+      }
+      visited.add(e.id);
+      segments.push({ gid:e.gid, startDay:d, span, ids, sample:e });
+    }
+  }
+  segments.sort((a,b)=> a.startDay - b.startDay);
+  const laneEnds = [];
+  segments.forEach(seg=>{
+    let placed = false;
+    for(let li=0; li<laneEnds.length; li++){
+      if(laneEnds[li] < seg.startDay){ seg.lane = li; laneEnds[li] = seg.startDay + seg.span - 1; placed = true; break; }
+    }
+    if(!placed){ seg.lane = laneEnds.length; laneEnds.push(seg.startDay + seg.span - 1); }
+  });
+  return { segments, maxLanes: laneEnds.length };
+}
+
+function moveEventOrder(id, dir){
+  const ev = EVENTS.find(e => e.id === id);
+  if(!ev) return;
+  const curIdx = EVENTS.indexOf(ev);
+  const sameDateIndices = [];
+  EVENTS.forEach((e,i)=>{ if(e.date === ev.date) sameDateIndices.push(i); });
+  const posInGroup = sameDateIndices.indexOf(curIdx);
+  const targetPos = posInGroup + (dir === 'up' ? -1 : 1);
+  if(targetPos < 0 || targetPos >= sameDateIndices.length) return;
+  const targetIdx = sameDateIndices[targetPos];
+  const tmp = EVENTS[curIdx];
+  EVENTS[curIdx] = EVENTS[targetIdx];
+  EVENTS[targetIdx] = tmp;
+  renderAndSave();
+}
+
+function buildEventEl(seg){
+  const catKey = seg.sample.cat;
+  const c = CATS[catKey];
+  const box = document.createElement('div');
+  box.className = 'event ' + c.cls;
+  box.style.gridColumn = (seg.startDay+1) + ' / span ' + seg.span;
+  box.style.gridRow = String(2 + seg.lane);
+  box.draggable = true;
+  box.dataset.ids = seg.ids.join(',');
+  box.dataset.startDate = seg.sample.date;
+
+  const grip = document.createElement('span');
+  grip.className = 'grip';
+  grip.textContent = '::';
+  grip.setAttribute('aria-hidden','true');
+  box.appendChild(grip);
+
+  if(catKey === 'holiday'){
+    const site = document.createElement('div');
+    site.className = 'site';
+    site.contentEditable = 'true';
+    site.textContent = seg.sample.site;
+    site.oninput = ()=>{ seg.ids.forEach(id=>{ const ev=EVENTS.find(x=>x.id===id); if(ev) ev.site = site.textContent; }); scheduleSave(); };
+    box.appendChild(site);
+  } else {
+    const tag = document.createElement('div');
+    tag.className = 'tag';
+    tag.contentEditable = 'true';
+    tag.textContent = '[' + seg.sample.tag + ']';
+    tag.oninput = ()=>{
+      const val = tag.textContent.replace(/^\[|\]$/g,'');
+      seg.ids.forEach(id=>{ const ev=EVENTS.find(x=>x.id===id); if(ev) ev.tag = val; });
+      updateTargetStats();
+      scheduleSave();
+    };
+    box.appendChild(tag);
+
+    const site = document.createElement('div');
+    site.className = 'site';
+    site.contentEditable = 'true';
+    site.textContent = seg.sample.site;
+    site.oninput = ()=>{ seg.ids.forEach(id=>{ const ev=EVENTS.find(x=>x.id===id); if(ev) ev.site = site.textContent; }); scheduleSave(); };
+    box.appendChild(site);
+
+    const people = document.createElement('div');
+    people.className = 'people';
+    people.contentEditable = 'true';
+    people.textContent = '(' + seg.sample.people + ')';
+    people.oninput = ()=>{
+      const val = people.textContent.replace(/^\(|\)$/g,'');
+      seg.ids.forEach(id=>{ const ev=EVENTS.find(x=>x.id===id); if(ev) ev.people = val; });
+      scheduleSave();
+    };
+    box.appendChild(people);
+  }
+
+  if(seg.span > 1){
+    const badge = document.createElement('span');
+    badge.className = 'span-badge';
+    badge.textContent = seg.span + '일';
+    box.appendChild(badge);
+  }
+
+  const del = document.createElement('button');
+  del.className = 'del';
+  del.textContent = '×';
+  del.title = '삭제';
+  del.draggable = false;
+  del.addEventListener('mousedown', (ev)=>{ ev.stopPropagation(); });
+  del.addEventListener('dragstart', (ev)=>{ ev.preventDefault(); ev.stopPropagation(); });
+  del.onclick = (ev)=>{ ev.stopPropagation(); removeIds(seg.ids); renderAndSave(); };
+  box.appendChild(del);
+
+  const repId = seg.ids[0];
+  const repEv = EVENTS.find(e => e.id === repId);
+  const sameDateIndices = [];
+  EVENTS.forEach((e,i)=>{ if(e.date === repEv.date) sameDateIndices.push(i); });
+  const posInGroup = sameDateIndices.indexOf(EVENTS.indexOf(repEv));
+
+  const orderWrap = document.createElement('div');
+  orderWrap.className = 'order-btns';
+  orderWrap.draggable = false;
+  orderWrap.addEventListener('mousedown', (ev)=>{ ev.stopPropagation(); });
+  orderWrap.addEventListener('dragstart', (ev)=>{ ev.preventDefault(); ev.stopPropagation(); });
+
+  const upBtn = document.createElement('button');
+  upBtn.className = 'order-btn';
+  upBtn.textContent = '▲';
+  upBtn.title = '위로 이동';
+  upBtn.type = 'button';
+  upBtn.draggable = false;
+  upBtn.disabled = posInGroup <= 0;
+  upBtn.addEventListener('mousedown', (ev)=>{ ev.stopPropagation(); });
+  upBtn.addEventListener('click', (ev)=>{ ev.stopPropagation(); moveEventOrder(repId, 'up'); });
+  orderWrap.appendChild(upBtn);
+
+  const downBtn = document.createElement('button');
+  downBtn.className = 'order-btn';
+  downBtn.textContent = '▼';
+  downBtn.title = '아래로 이동';
+  downBtn.type = 'button';
+  downBtn.draggable = false;
+  downBtn.disabled = posInGroup >= sameDateIndices.length - 1;
+  downBtn.addEventListener('mousedown', (ev)=>{ ev.stopPropagation(); });
+  downBtn.addEventListener('click', (ev)=>{ ev.stopPropagation(); moveEventOrder(repId, 'down'); });
+  orderWrap.appendChild(downBtn);
+
+  box.appendChild(orderWrap);
+
+  box.addEventListener('dragstart', (dEv)=>{
+    if(dEv.target.closest('button, .order-btns')){
+      dEv.preventDefault();
+      return;
+    }
+    dragCtx = { ids: seg.ids.slice(), startDate: seg.sample.date };
+    box.classList.add('dragging');
+    dEv.dataTransfer.effectAllowed = 'copyMove';
+    dEv.dataTransfer.setData('text/plain', seg.ids.join(','));
+  });
+  box.addEventListener('dragend', ()=>{ box.classList.remove('dragging'); dragCtx = null; });
+
+  return box;
+}
+
+function render(){
+  const container = document.getElementById('weeks-container');
+  container.innerHTML = '';
+
+  for(let w=0; w<RENDER_DAYS.length; w+=WEEKDAY_COUNT){
+    const weekDaysInfo = RENDER_DAYS.slice(w, w+WEEKDAY_COUNT);
+    const weekDayKeys = weekDaysInfo.map(d=>d.key);
+    const { segments, maxLanes } = layoutWeek(weekDayKeys);
+
+    const weekGrid = document.createElement('div');
+    weekGrid.className = 'week-grid';
+    const rowsTemplate = maxLanes > 0
+      ? '22px repeat(' + maxLanes + ', minmax(30px,auto)) 22px'
+      : '22px 22px';
+    weekGrid.style.gridTemplateRows = rowsTemplate;
+
+    const dayCellRefs = [];
+    weekDaysInfo.forEach((d, idx)=>{
+      const cell = document.createElement('div');
+      cell.className = 'day-cell' + (d.outside ? ' outside' : '');
+      cell.style.gridColumn = String(idx+1);
+      const num = document.createElement('div');
+      const hasHoliday = EVENTS.some(e => e.date === d.key && e.cat === 'holiday');
+      num.className = 'date-num' + (hasHoliday ? ' holiday' : d.wd===0?' sun':d.wd===6?' sat':'');
+      num.textContent = parseInt(d.key.split('-')[2],10);
+      cell.appendChild(num);
+      weekGrid.appendChild(cell);
+      dayCellRefs.push(cell);
+    });
+
+    segments.forEach(seg=>{
+      weekGrid.appendChild(buildEventEl(seg));
+    });
+
+    weekDaysInfo.forEach((d, idx)=>{
+      const addBtn = document.createElement('button');
+      addBtn.className = 'add-btn';
+      addBtn.textContent = '+ 일정 추가';
+      addBtn.style.gridColumn = String(idx+1);
+      addBtn.style.gridRow = String(2 + maxLanes);
+      addBtn.onclick = (ev)=>{ ev.stopPropagation(); openPicker(addBtn, d.key); };
+      weekGrid.appendChild(addBtn);
+    });
+
+    function clearInsertMarks(){
+      weekGrid.querySelectorAll('.event').forEach(el=>el.classList.remove('insert-before','insert-after'));
+    }
+
+    weekGrid.addEventListener('dragover', (dEv)=>{
+      if(!dragCtx) return;
+      dEv.preventDefault();
+      const isCopy = dEv.ctrlKey || dEv.metaKey;
+      const rect = weekGrid.getBoundingClientRect();
+      const colWidth = rect.width / WEEKDAY_COUNT;
+      let colIdx = Math.floor((dEv.clientX - rect.left) / colWidth);
+      colIdx = Math.max(0, Math.min(WEEKDAY_COUNT - 1, colIdx));
+      const targetDate = weekDayKeys[colIdx];
+      weekGrid.classList.add('drop-hint');
+      dayCellRefs.forEach((c,i)=> c.classList.toggle('drop-target', i===colIdx));
+
+      const sameDate = !isCopy && targetDate === dragCtx.startDate;
+      clearInsertMarks();
+      if(sameDate){
+        dEv.dataTransfer.dropEffect = 'move';
+        const candidates = Array.from(weekGrid.querySelectorAll('.event')).filter(el=>{
+          const ids = el.dataset.ids.split(',');
+          return el.dataset.startDate === targetDate && !ids.some(id=>dragCtx.ids.includes(id));
+        }).sort((a,b)=> a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+
+        let refEl = null;
+        for(const el of candidates){
+          const r = el.getBoundingClientRect();
+          if(dEv.clientY < r.top + r.height/2){ refEl = el; break; }
+        }
+        if(refEl){
+          refEl.classList.add('insert-before');
+          dragCtx.reorderRefId = refEl.dataset.ids.split(',')[0];
+        } else if(candidates.length){
+          candidates[candidates.length-1].classList.add('insert-after');
+          dragCtx.reorderRefId = null;
+        } else {
+          dragCtx.reorderRefId = null;
+        }
+        dragCtx.isReorder = true;
+      } else {
+        dEv.dataTransfer.dropEffect = isCopy ? 'copy' : 'move';
+        dragCtx.isReorder = false;
+      }
+    });
+    weekGrid.addEventListener('dragleave', (dEv)=>{
+      if(!weekGrid.contains(dEv.relatedTarget)){
+        weekGrid.classList.remove('drop-hint');
+        dayCellRefs.forEach(c=> c.classList.remove('drop-target'));
+        clearInsertMarks();
+      }
+    });
+    weekGrid.addEventListener('drop', (dEv)=>{
+      dEv.preventDefault();
+      weekGrid.classList.remove('drop-hint');
+      dayCellRefs.forEach(c=> c.classList.remove('drop-target'));
+      clearInsertMarks();
+      if(!dragCtx) return;
+      const rect = weekGrid.getBoundingClientRect();
+      const colWidth = rect.width / WEEKDAY_COUNT;
+      let colIdx = Math.floor((dEv.clientX - rect.left) / colWidth);
+      colIdx = Math.max(0, Math.min(WEEKDAY_COUNT - 1, colIdx));
+      const targetDate = weekDayKeys[colIdx];
+      const isCopy = dEv.ctrlKey || dEv.metaKey;
+
+      if(dragCtx.isReorder && !isCopy){
+        const movedIds = dragCtx.ids;
+        const movedEvents = [];
+        EVENTS = EVENTS.filter(e=>{
+          if(movedIds.includes(e.id)){ movedEvents.push(e); return false; }
+          return true;
+        });
+        let insertIdx;
+        if(dragCtx.reorderRefId){
+          insertIdx = EVENTS.findIndex(e=>e.id===dragCtx.reorderRefId);
+          if(insertIdx === -1) insertIdx = EVENTS.length;
+        } else {
+          let lastIdx = -1;
+          EVENTS.forEach((e,i)=>{ if(e.date === dragCtx.startDate) lastIdx = i; });
+          insertIdx = lastIdx === -1 ? EVENTS.length : lastIdx + 1;
+        }
+        EVENTS.splice(insertIdx, 0, ...movedEvents);
+        dragCtx = null;
+        renderAndSave();
+        return;
+      }
+
+      const offset = (new Date(targetDate+'T00:00:00') - new Date(dragCtx.startDate+'T00:00:00')) / 86400000;
+      if(offset === 0 && !isCopy){ dragCtx = null; return; }
+
+      if(isCopy){
+        dragCtx.ids.forEach(id=>{
+          const src = EVENTS.find(e=>e.id===id);
+          if(!src) return;
+          const newDate = addDays(src.date, offset);
+          if(!isValidKey(newDate)) return;
+          EVENTS.push(mkEvent(newId(), src.gid, newDate, src.cat, src.tag, src.site, src.people));
+        });
+      } else {
+        dragCtx.ids.forEach(id=>{
+          const ev = EVENTS.find(e=>e.id===id);
+          if(!ev) return;
+          const newDate = addDays(ev.date, offset);
+          if(isValidKey(newDate)) ev.date = newDate;
+        });
+      }
+      dragCtx = null;
+      renderAndSave();
+    });
+
+    container.appendChild(weekGrid);
+  }
+  updateTargetStats();
+}
+
+function resetDoc(){
+  if(confirm(currentYear + '년 ' + String(currentMonth).padStart(2,'0') + '월 일정표를 초기 상태로 되돌리시겠습니까? (공유 저장소의 데이터도 초기화됩니다)')){
+    resetLocalStateForMonth(currentYear, currentMonth);
+    renderAndSave();
+  }
+}
+
+TEXT_FIELD_IDS.concat(MANUAL_STAT_IDS).forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('input', scheduleSave);
+});
+
+function fitSheetToA4Landscape(){
+  const sheet = document.getElementById('sheet');
+  if(!sheet) return;
+  sheet.style.zoom = 1;
+  void sheet.offsetHeight;
+  const contentW = sheet.scrollWidth;
+  const contentH = sheet.scrollHeight;
+  const pageWmm = 210, pageHmm = 297, marginMm = 6;
+  const pxPerMm = 96 / 25.4;
+  const usableWpx = (pageWmm - marginMm*2) * pxPerMm;
+  const usableHpx = (pageHmm - marginMm*2) * pxPerMm;
+  const scale = Math.min(usableWpx / contentW, usableHpx / contentH, 1);
+  sheet.style.zoom = scale;
+}
+function resetSheetZoom(){
+  const sheet = document.getElementById('sheet');
+  if(sheet) sheet.style.zoom = 1;
+}
+window.addEventListener('beforeprint', fitSheetToA4Landscape);
+window.addEventListener('afterprint', resetSheetZoom);
+
+document.getElementById('btn-print').addEventListener('click', function(){ window.print(); });
+document.getElementById('btn-reset').addEventListener('click', resetDoc);
+document.getElementById('btn-prev-month').addEventListener('click', function(){ shiftMonth(-1); });
+document.getElementById('btn-next-month').addEventListener('click', function(){ shiftMonth(1); });
+document.addEventListener('focusout', ()=> setTimeout(applyPendingRemoteIfIdle, 50));
+
+setInterval(checkAutoMonthRollover, 60 * 1000);
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) checkAutoMonthRollover(); });
+
+resetLocalStateForMonth(currentYear, currentMonth);
+initRealtimeSync();
+
+})();
+</script>
+</body>
+</html>
