@@ -52,6 +52,63 @@
   }
   .notice-tab:hover{background:#FBD9D9;}
 
+  .minutes-tab{
+    appearance:none;border:1px solid #C7D3E9;background:#EAEFF9;color:var(--navy);
+    padding:10px 18px;border-radius:9px;font-size:13.5px;font-weight:700;cursor:pointer;
+    font-family:inherit;transition:all .15s ease;
+  }
+  .minutes-tab:hover{background:#DCE4F2;}
+
+  #minutesOverlay{background:rgba(15,25,45,.5);}
+  #minutesOverlay .modal-box.minutes-box{max-width:840px;border-color:#C7D3E9;}
+  #minutesOverlay .modal-header{background:var(--navy);}
+  #minutesOverlay .modal-footer-right .btn{border-color:#C7D3E9;color:var(--navy);}
+  #minutesOverlay .modal-footer-right .btn:hover{background:#EAEFF9;}
+  #minutesOverlay .modal-footer-right .btn.primary{background:var(--navy);color:#fff;border-color:var(--navy);}
+  #minutesOverlay .modal-footer-right .btn.primary:hover{background:var(--navy-2);border-color:var(--navy-2);}
+  .minutes-modal-body{white-space:normal;max-height:68vh;min-height:0;}
+  .minutes-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px;}
+  .minutes-upload-label{cursor:pointer;}
+  .minutes-date-input{
+    border:1px solid var(--line-strong);border-radius:8px;padding:7px 10px;font-size:13px;
+    font-family:inherit;color:var(--ink);background:#fff;cursor:pointer;
+  }
+  .minutes-upload-status{font-size:12px;color:var(--sub);}
+  .minutes-layout{display:flex;gap:16px;align-items:flex-start;}
+  .minutes-list{
+    flex:0 0 240px;border:1px solid var(--line-strong);border-radius:10px;
+    max-height:52vh;overflow-y:auto;background:#FAFBFD;
+  }
+  .minutes-empty, .minutes-placeholder{padding:16px;font-size:12.5px;color:var(--sub);}
+  .minutes-list-item{
+    display:flex;flex-direction:column;gap:2px;padding:10px 14px;cursor:pointer;
+    border-bottom:1px solid var(--line);
+  }
+  .minutes-list-item:last-child{border-bottom:none;}
+  .minutes-list-item:hover{background:#EEF3FA;}
+  .minutes-list-item.active{background:var(--navy);}
+  .minutes-item-date{font-size:12.5px;font-weight:800;color:var(--navy);}
+  .minutes-list-item.active .minutes-item-date{color:#fff;}
+  .minutes-item-file{font-size:11.5px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .minutes-list-item.active .minutes-item-file{color:#D9E2F2;}
+  .minutes-item-row{display:flex;align-items:center;justify-content:space-between;gap:6px;}
+  .minutes-delete-btn{
+    appearance:none;border:none;background:transparent;color:var(--sub);cursor:pointer;
+    font-size:12px;padding:2px 5px;border-radius:5px;line-height:1;flex-shrink:0;
+  }
+  .minutes-delete-btn:hover{background:#F0D9D9;color:#B02020;}
+  .minutes-list-item.active .minutes-delete-btn{color:#D9E2F2;}
+  .minutes-list-item.active .minutes-delete-btn:hover{background:rgba(255,255,255,.2);color:#fff;}
+  .minutes-content{
+    flex:1;min-width:0;max-height:52vh;overflow-y:auto;padding:6px 4px;
+    font-size:13px;line-height:1.7;color:var(--ink);
+  }
+  .minutes-content table{border-collapse:collapse;margin:10px 0;max-width:100%;}
+  .minutes-content table, .minutes-content th, .minutes-content td{border:1px solid var(--line-strong);}
+  .minutes-content th, .minutes-content td{padding:6px 10px;font-size:12.5px;}
+  .minutes-content p{margin:0 0 10px;}
+  .minutes-content img{max-width:100%;}
+
   .modal-overlay{
     display:none;position:fixed;inset:0;background:rgba(60,15,15,.5);
     z-index:1000;align-items:center;justify-content:center;padding:20px;
@@ -495,7 +552,41 @@
   <div class="nav-tabs">
     <button class="nav-tab active" data-page="page-dashboard" type="button">📋 업무현황판</button>
     <button class="nav-tab" data-page="page-schedule" type="button">🗓️ 회의및출장일정</button>
+    <button class="minutes-tab" id="btnMinutes" type="button">📝 회의록</button>
     <button class="notice-tab" id="btnNotice" type="button">📢 공지사항</button>
+  </div>
+
+  <div class="modal-overlay" id="minutesOverlay">
+    <div class="modal-box minutes-box">
+      <div class="modal-header">
+        <span>📝 회의록</span>
+        <button class="modal-close" id="minutesClose" type="button">✕</button>
+      </div>
+      <div class="modal-body minutes-modal-body">
+        <div class="minutes-toolbar">
+          <label class="btn primary minutes-upload-label">
+            + 회의록 업로드 (.docx)
+            <input type="file" id="minutesFileInput" accept=".docx" style="display:none">
+          </label>
+          <input type="date" id="minutesDateInput" class="minutes-date-input">
+          <span id="minutesUploadStatus" class="minutes-upload-status"></span>
+        </div>
+        <div class="minutes-layout">
+          <div class="minutes-list" id="minutesList">
+            <div class="minutes-empty">업로드된 회의록이 없습니다.</div>
+          </div>
+          <div class="minutes-content" id="minutesContent">
+            <div class="minutes-placeholder">왼쪽 목록에서 날짜를 선택하면 회의록 내용이 여기에 표시됩니다.</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span></span>
+        <div class="modal-footer-right">
+          <button class="btn primary" id="minutesCloseBtn" type="button">닫기</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="modal-overlay" id="noticeOverlay">
@@ -539,13 +630,13 @@
   <div class="header-banner">
     <div class="headerbar">
       <div class="title-block">
-        <h1 contenteditable="true" spellcheck="false">건설고도화 추진단 업무현황판</h1>
-        <div class="subtitle" contenteditable="true" spellcheck="false">CONSTRUCTION ADVANCEMENT TASK FORCE · DASHBOARD</div>
+        <h1 id="dash-title" contenteditable="true" spellcheck="false">건설고도화 추진단 업무현황판</h1>
+        <div class="subtitle" id="dash-subtitle" contenteditable="true" spellcheck="false">CONSTRUCTION ADVANCEMENT TASK FORCE · DASHBOARD</div>
       </div>
       <div class="meta">
-        <div class="item"><label>소속</label><div contenteditable="true" spellcheck="false">건설고도화 추진단</div></div>
-        <div class="item"><label>기준일자</label><div contenteditable="true" spellcheck="false">2026년 08월 기준</div></div>
-        <div class="item status-item"><label>운영상태</label><div contenteditable="true" spellcheck="false"><span class="status-dot"></span>실시간 연동 관리 중</div></div>
+        <div class="item"><label>소속</label><div id="dash-org" contenteditable="true" spellcheck="false">건설고도화 추진단</div></div>
+        <div class="item"><label>기준일자</label><div id="dash-date" contenteditable="true" spellcheck="false">2026년 08월 기준</div></div>
+        <div class="item status-item"><label>운영상태</label><div id="dash-status" contenteditable="true" spellcheck="false"><span class="status-dot"></span>실시간 연동 관리 중</div></div>
       </div>
     </div>
   </div>
@@ -582,8 +673,7 @@
         <thead>
           <tr>
             <th colspan="2">담당자</th>
-            <th rowspan="2" style="width:44%">업무내용</th>
-            <th rowspan="2" style="width:14%">상태</th>
+            <th rowspan="2" style="width:58%">업무내용</th>
             <th rowspan="2" class="row-actions"></th>
           </tr>
           <tr>
@@ -596,35 +686,30 @@
             <td class="staff-td"></td>
             <td class="staff-td"></td>
             <td contenteditable="true">건설고도화 마스터플랜 수립 및 이행 점검 (중장기 로드맵 / 이행률)</td>
-            <td></td>
             <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
           </tr>
           <tr data-item="현장 및 협력회사 기술인터뷰">
             <td class="staff-td"></td>
             <td class="staff-td"></td>
             <td contenteditable="true">BIM, AI, 건설로봇 기술 현장 적용 및 확산 (스마트기술 가이드라인)</td>
-            <td></td>
             <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
           </tr>
           <tr data-item="기타추진단 업무">
             <td class="staff-td"></td>
             <td class="staff-td"></td>
             <td contenteditable="true">고도화 품질 점검 체계 구축 및 안전 가이드 수립 (점검 매뉴얼 V2.0)</td>
-            <td></td>
             <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
           </tr>
           <tr data-item="기타추진단 업무">
             <td class="staff-td"></td>
             <td class="staff-td"></td>
             <td contenteditable="true">건설기준(KDS/KCS) 개정 및 관련 법제도 검토 (시방서/기준 개정안)</td>
-            <td></td>
             <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
           </tr>
           <tr data-item="전체회의준비">
             <td class="staff-td"></td>
             <td class="staff-td"></td>
             <td contenteditable="true">산·학·연 협의체 운영 및 성과공유회 개최 (세미나 / 성과집 발간)</td>
-            <td></td>
             <td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>
           </tr>
         </tbody>
@@ -689,11 +774,11 @@
   <div class="card">
     <div class="note">
       <span class="ico">💡</span>
-      <div><b>운용 참고사항:</b> <span contenteditable="true" spellcheck="false">본 전자문서는 건설고도화 추진단의 공통 과제와 개인별 업무분장을 분할 표시한 전자 현황판입니다. 세부 조직 구성 및 담당자 변경 시 업데이트하여 재발행이 가능합니다. 표의 각 칸을 클릭하면 바로 수정할 수 있으며, 상태 배지를 클릭하면 값이 순환됩니다.</span></div>
+      <div><b>운용 참고사항:</b> <span id="dash-note" contenteditable="true" spellcheck="false">본 전자문서는 건설고도화 추진단의 공통 과제와 개인별 업무분장을 분할 표시한 전자 현황판입니다. 세부 조직 구성 및 담당자 변경 시 업데이트하여 재발행이 가능합니다. 표의 각 칸을 클릭하면 바로 수정할 수 있으며, 상태 배지를 클릭하면 값이 순환됩니다.</span></div>
     </div>
   </div>
 
-  <div class="footer-hint">칸을 클릭해 바로 수정하고, 상태 배지를 클릭해 진행 상태를 바꿀 수 있습니다 · 완료 후 우측 상단 "HTML로 다운로드"로 저장하세요</div>
+  <div class="footer-hint">칸을 클릭해 바로 수정하고, 상태 배지를 클릭해 진행 상태를 바꿀 수 있습니다 · 완료 후 우측 상단 "HTML로 다운로드"로 저장하세요 <span id="dash-save-status" style="margin-left:8px;color:#2F7D45;font-weight:600;"></span></div>
 
   </div><!-- /page-dashboard -->
 
@@ -788,11 +873,14 @@
 
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.12.1/mammoth.browser.min.js"></script>
 <script>
 (function(){
   var STATUS_CYCLE = ["진행중","완료","보류"];
   var ITEM_OPTIONS = ["전체회의준비","현장 및 협력회사 기술인터뷰","기타추진단 업무"];
-  var STAFF_OPTIONS = ["문성준","김용권","백영수","나종운","신성근","정윤종","김지현","임시내","김진교","이현경"];
+  var STAFF_OPTIONS = ["문성준","김용권","백영수","나종운","신성근","정윤종","김지현","임시내","김진교","이현경","분야별담당","없음"];
   var PERSON_NAME_OPTIONS = ["김용권","나종운","백영수","신성근","정윤종"];
 
   var activePerson = PERSON_NAME_OPTIONS[0];
@@ -907,6 +995,7 @@
       });
       saveBtn.addEventListener("click", function(){
         exitEditMode();
+        scheduleDashboardSave();
       });
 
       box.appendChild(head);
@@ -1001,9 +1090,11 @@
     btn.setAttribute("data-status", next);
     btn.textContent = next;
     updateSummary();
+    scheduleDashboardSave();
   }
 
   var AGG_ORDER = [["전체","total"],["진행중","진행중"],["완료","완료"],["보류","보류"]];
+  var COMMON_AGG_ORDER = [];
 
   function computeAgg(tbody){
     var counts = {전체:0,진행중:0,완료:0,보류:0};
@@ -1019,10 +1110,10 @@
     return counts;
   }
 
-  function renderAgg(containerId, counts){
+  function renderAgg(containerId, counts, order){
     var el = document.getElementById(containerId);
     el.innerHTML = "";
-    AGG_ORDER.forEach(function(pair){
+    (order || AGG_ORDER).forEach(function(pair){
       var key = pair[0], cls = pair[1];
       var tile = document.createElement("div");
       tile.className = "kpi-tile " + cls;
@@ -1072,23 +1163,19 @@
   function computeCommonPersonBreakdown(){
     var map = {};
     STAFF_OPTIONS.forEach(function(name){
-      map[name] = {정:0,부:0,total:0,진행중:0,완료:0,보류:0};
+      map[name] = {정:0,부:0,total:0};
     });
     document.getElementById("commonBody").querySelectorAll("tr").forEach(function(tr){
       var staffSelects = tr.querySelectorAll(".staff-select");
       var mainName = staffSelects[0] ? staffSelects[0].value : null;
       var deputyName = staffSelects[1] ? staffSelects[1].value : null;
-      var badge = tr.querySelector(".badge");
-      var st = badge ? badge.getAttribute("data-status") : null;
       if (mainName && map[mainName]){
         map[mainName].정++;
         map[mainName].total++;
-        if (st && map[mainName].hasOwnProperty(st)) map[mainName][st]++;
       }
       if (deputyName && map[deputyName]){
         map[deputyName].부++;
         map[deputyName].total++;
-        if (st && map[deputyName].hasOwnProperty(st)) map[deputyName][st]++;
       }
     });
     return map;
@@ -1096,34 +1183,24 @@
 
   function renderCommonPersonBreakdown(){
     var map = computeCommonPersonBreakdown();
-    var cols = ["진행중","완료","보류"];
-    var html = '<table class="person-table"><thead><tr><th>성명</th><th>정</th><th>부</th><th>건수</th>';
-    cols.forEach(function(c){ html += '<th>' + c + '</th>'; });
-    html += '</tr></thead><tbody>';
+    var html = '<table class="person-table"><thead><tr><th>성명</th><th>정</th><th>부</th><th>건수</th></tr></thead><tbody>';
     STAFF_OPTIONS.forEach(function(name){
       var d = map[name];
       if (d.total === 0) return;
-      html += '<tr><td class="person-name">' + name + '</td><td>' + d.정 + '</td><td>' + d.부 + '</td><td>' + d.total + '</td>';
-      cols.forEach(function(c){
-        var v = d[c];
-        html += '<td class="' + c + (v > 0 ? ' count-nonzero' : '') + '">' + v + '</td>';
-      });
-      html += '</tr>';
+      html += '<tr><td class="person-name">' + name + '</td><td>' + d.정 + '</td><td>' + d.부 + '</td><td>' + d.total + '</td></tr>';
     });
     html += '</tbody></table>';
     document.getElementById("commonByPerson").innerHTML = html;
   }
 
   function updateSummary(){
-    renderAgg("commonAgg", computeAgg(document.getElementById("commonBody")));
+    renderAgg("commonAgg", computeAgg(document.getElementById("commonBody")), COMMON_AGG_ORDER);
     renderAgg("personalAgg", computeAgg(document.getElementById("personalBody")));
     renderCommonPersonBreakdown();
     renderPersonBreakdown();
   }
 
   // seed initial statuses (matches original document)
-  var commonStatuses = ["진행중","진행중","완료","보류","진행중"];
-  var commonItems = ["전체회의준비","현장 및 협력회사 기술인터뷰","기타추진단 업무","기타추진단 업무","전체회의준비"];
   var personalStatuses = ["진행중","진행중","진행중","완료","보류"];
 
   function seed(tbodyId, statuses){
@@ -1136,7 +1213,6 @@
       }
     });
   }
-  seed("commonBody", commonStatuses);
   seed("personalBody", personalStatuses);
 
   // set up name tabs for personal table
@@ -1183,46 +1259,66 @@
       if (isCommon) { renumberCommon(); capTableScroll("commonBody", 5); }
       else { capTableScroll("personalBody", 5); }
       updateSummary();
+      scheduleDashboardSave();
     });
   }
   document.querySelectorAll(".row-actions .icon-btn").forEach(attachDelete);
 
-  function addCommonRow(){
-    var tbody = document.getElementById("commonBody");
+  function escapeHtml(s){
+    return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function createCommonRow(data){
+    data = data || {};
     var tr = document.createElement("tr");
-    tr.setAttribute("data-item", activeCommonItem);
+    tr.setAttribute("data-item", data.item || activeCommonItem);
     tr.innerHTML =
       '<td class="staff-td"></td>' +
       '<td class="staff-td"></td>' +
-      '<td contenteditable="true">업무내용을 입력하세요</td>' +
-      '<td></td>' +
+      '<td contenteditable="true">' + (data.content != null ? escapeHtml(data.content) : "업무내용을 입력하세요") + '</td>' +
       '<td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>';
-    tbody.appendChild(tr);
     var tds = tr.querySelectorAll("td");
-    tds[0].appendChild(makeStaffSelect(STAFF_OPTIONS[0]));
-    tds[1].appendChild(makeStaffSelect(STAFF_OPTIONS[1]));
-    tds[3].appendChild(makeBadge("보류"));
+    tds[0].appendChild(makeStaffSelect(data.staffMain || STAFF_OPTIONS[0]));
+    tds[1].appendChild(makeStaffSelect(data.staffDeputy || STAFF_OPTIONS[1]));
     attachDelete(tr.querySelector(".icon-btn"));
+    return tr;
+  }
+
+  function addCommonRow(){
+    var tbody = document.getElementById("commonBody");
+    var tr = createCommonRow({item: activeCommonItem});
+    tbody.appendChild(tr);
     filterCommonRows();
     updateSummary();
-    tds[2].focus();
+    tr.children[2].focus();
+    scheduleDashboardSave();
+  }
+
+  function createPersonalRow(data){
+    data = data || {};
+    var lines = (data.lines && data.lines.length) ? data.lines : ["업무추진내용을 입력하세요"];
+    var liHtml = lines.map(function(t){ return '<li contenteditable="true">' + escapeHtml(t) + '</li>'; }).join("");
+    var tr = document.createElement("tr");
+    tr.setAttribute("data-person", data.person || activePerson);
+    tr.innerHTML =
+      '<td class="period-td"><input type="month" class="period-input"></td>' +
+      '<td><ul class="task-list">' + liHtml + '</ul></td>' +
+      '<td></td>' +
+      '<td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>';
+    if (data.period){ tr.querySelector(".period-input").value = data.period; }
+    tr.querySelector("td:nth-child(3)").appendChild(makeBadge(data.status || "보류"));
+    attachDelete(tr.querySelector(".icon-btn"));
+    return tr;
   }
 
   function addPersonalRow(){
     var tbody = document.getElementById("personalBody");
-    var tr = document.createElement("tr");
-    tr.setAttribute("data-person", activePerson);
-    tr.innerHTML =
-      '<td class="period-td"><input type="month" class="period-input"></td>' +
-      '<td><ul class="task-list"><li contenteditable="true">업무추진내용을 입력하세요</li></ul></td>' +
-      '<td></td>' +
-      '<td class="row-actions"><button class="icon-btn" title="행 삭제">✕</button></td>';
+    var tr = createPersonalRow({person: activePerson});
     tbody.appendChild(tr);
-    tr.querySelector("td:nth-child(3)").appendChild(makeBadge("보류"));
-    attachDelete(tr.querySelector(".icon-btn"));
     filterPersonalRows();
     updateSummary();
     tr.querySelectorAll('[contenteditable="true"]')[0].focus();
+    scheduleDashboardSave();
   }
 
   function isCaretAtLiStart(li){
@@ -1285,6 +1381,173 @@
 
   updateSummary();
 
+  // ---- Firebase 실시간 동기화 (업무현황판) ----
+  var DASHBOARD_DB_URL = "https://construction-adv-dashboard-default-rtdb.firebaseio.com";
+  var DASH_TEXT_FIELDS = [
+    ["dash-title", "text"],
+    ["dash-subtitle", "text"],
+    ["dash-org", "text"],
+    ["dash-date", "text"],
+    ["dash-status", "html"],
+    ["dash-note", "text"]
+  ];
+
+  function buildDashboardStatePayload(){
+    var simple = {};
+    DASH_TEXT_FIELDS.forEach(function(pair){
+      var el = document.getElementById(pair[0]);
+      if (!el) return;
+      simple[pair[0]] = pair[1] === "html" ? el.innerHTML : el.textContent;
+    });
+    var common = [];
+    document.getElementById("commonBody").querySelectorAll("tr").forEach(function(tr){
+      var selects = tr.querySelectorAll(".staff-select");
+      common.push({
+        item: tr.getAttribute("data-item") || "",
+        staffMain: selects[0] ? selects[0].value : "",
+        staffDeputy: selects[1] ? selects[1].value : "",
+        content: tr.children[2] ? tr.children[2].textContent : ""
+      });
+    });
+    var personal = [];
+    document.getElementById("personalBody").querySelectorAll("tr").forEach(function(tr){
+      var monthInput = tr.querySelector(".period-input");
+      var lines = Array.prototype.map.call(tr.querySelectorAll("ul.task-list li"), function(li){ return li.textContent; });
+      var badge = tr.querySelector(".badge");
+      personal.push({
+        person: tr.getAttribute("data-person") || "",
+        period: monthInput ? monthInput.value : "",
+        lines: lines,
+        status: badge ? badge.getAttribute("data-status") : "보류"
+      });
+    });
+    var leaderRequests = {};
+    document.querySelectorAll("#leaderRequests .leader-request").forEach(function(box){
+      var name = box.getAttribute("data-person");
+      var body = box.querySelector(".leader-request-body");
+      if (name && body) leaderRequests[name] = body.textContent;
+    });
+    return {
+      simple: simple,
+      common: common,
+      personal: personal,
+      leaderRequests: leaderRequests,
+      notice: noticeBody ? noticeBody.textContent : "",
+      updatedAt: Date.now()
+    };
+  }
+
+  function applyDashboardStatePayload(data){
+    if (!data) return;
+    if (data.simple){
+      DASH_TEXT_FIELDS.forEach(function(pair){
+        var el = document.getElementById(pair[0]);
+        if (!el || !(pair[0] in data.simple)) return;
+        if (pair[1] === "html") el.innerHTML = data.simple[pair[0]];
+        else el.textContent = data.simple[pair[0]];
+      });
+    }
+    if (Array.isArray(data.common)){
+      var cbody = document.getElementById("commonBody");
+      cbody.innerHTML = "";
+      data.common.forEach(function(row){ cbody.appendChild(createCommonRow(row)); });
+      if (cbody.children.length === 0){ cbody.appendChild(createCommonRow({item: ITEM_OPTIONS[0]})); }
+      renumberCommon();
+    }
+    if (Array.isArray(data.personal)){
+      var pbody = document.getElementById("personalBody");
+      pbody.innerHTML = "";
+      data.personal.forEach(function(row){ pbody.appendChild(createPersonalRow(row)); });
+      if (pbody.children.length === 0){ pbody.appendChild(createPersonalRow({person: PERSON_NAME_OPTIONS[0]})); }
+    }
+    if (data.leaderRequests){
+      document.querySelectorAll("#leaderRequests .leader-request").forEach(function(box){
+        var name = box.getAttribute("data-person");
+        var body = box.querySelector(".leader-request-body");
+        if (body && name && data.leaderRequests[name] != null) body.textContent = data.leaderRequests[name];
+      });
+    }
+    if (typeof data.notice === "string" && noticeBody && noticeBody.getAttribute("contenteditable") !== "true"){
+      noticeBody.textContent = data.notice;
+    }
+    renderCommonTabs();
+    filterCommonRows();
+    renderPersonTabs();
+    filterPersonalRows();
+    filterLeaderRequests();
+    updateSummary();
+  }
+
+  function isDashboardUserEditing(){
+    var ae = document.activeElement;
+    if (!ae) return false;
+    if (ae.isContentEditable) return true;
+    var tag = ae.tagName;
+    if (tag === "SELECT" || tag === "INPUT") return true;
+    return false;
+  }
+
+  function setDashSaveStatus(msg){
+    var el = document.getElementById("dash-save-status");
+    if (el) el.textContent = msg;
+  }
+
+  var dashSaveTimer = null;
+  var dashDbRef = null;
+  var dashPendingRemote = null;
+
+  function saveDashboardState(){
+    if (!dashDbRef) return;
+    setDashSaveStatus("저장 중…");
+    dashDbRef.set(buildDashboardStatePayload())
+      .then(function(){ setDashSaveStatus("저장됨 · " + new Date().toLocaleTimeString("ko-KR")); })
+      .catch(function(){ setDashSaveStatus("저장 실패 (네트워크 확인)"); });
+  }
+
+  function scheduleDashboardSave(){
+    if (!dashDbRef) return;
+    clearTimeout(dashSaveTimer);
+    setDashSaveStatus("저장 중…");
+    dashSaveTimer = setTimeout(saveDashboardState, 700);
+  }
+
+  function applyPendingDashboardRemoteIfIdle(){
+    if (dashPendingRemote && !isDashboardUserEditing()){
+      applyDashboardStatePayload(dashPendingRemote);
+      dashPendingRemote = null;
+      setDashSaveStatus("실시간 동기화됨 · " + new Date().toLocaleTimeString("ko-KR"));
+    }
+  }
+
+  function initDashboardSync(){
+    try{
+      if (typeof firebase === "undefined"){
+        setDashSaveStatus("Firebase 연결 불가 · 로컬 데이터로 시작");
+        return;
+      }
+      var app;
+      if (firebase.apps && firebase.apps.length){ app = firebase.apps[0]; }
+      else { app = firebase.initializeApp({ databaseURL: DASHBOARD_DB_URL }); }
+      dashDbRef = firebase.database(app).ref("dashboardBoard");
+      setDashSaveStatus("연결 중…");
+      dashDbRef.on("value", function(snapshot){
+        var data = snapshot.val();
+        if (!data){ setDashSaveStatus("저장된 데이터 없음 · 최초 저장 대기"); return; }
+        if (isDashboardUserEditing()){ dashPendingRemote = data; return; }
+        applyDashboardStatePayload(data);
+        setDashSaveStatus("실시간 동기화됨 · " + new Date().toLocaleTimeString("ko-KR"));
+      }, function(){
+        setDashSaveStatus("연결 실패 · 로컬 데이터로 시작");
+      });
+    }catch(err){
+      setDashSaveStatus("Firebase 연결 불가 · 로컬 데이터로 시작");
+    }
+  }
+
+  document.getElementById("page-dashboard").addEventListener("input", function(){ scheduleDashboardSave(); });
+  document.getElementById("page-dashboard").addEventListener("change", function(){ scheduleDashboardSave(); });
+  document.addEventListener("focusout", function(){ setTimeout(applyPendingDashboardRemoteIfIdle, 50); });
+
   document.getElementById("btnPrint").addEventListener("click", function(){
     window.print();
   });
@@ -1337,8 +1600,187 @@
   noticeOverlay.addEventListener("click", function(e){
     if (e.target === noticeOverlay) closeNotice();
   });
+  noticeBody.addEventListener("input", function(){ scheduleDashboardSave(); });
   // 업무현황판 접속 시 공지사항 자동 팝업
   openNotice();
+
+  // ---- 회의록 (.docx 업로드/열람, 날짜별 목록) ----
+  var minutesOverlay = document.getElementById("minutesOverlay");
+  var minutesRecords = [];
+  var activeMinutesId = null;
+  var minutesDbRef = null;
+
+  function openMinutes(){
+    minutesOverlay.classList.add("show");
+    var dateInput = document.getElementById("minutesDateInput");
+    if (dateInput && !dateInput.value){
+      var d = new Date();
+      var mm = String(d.getMonth() + 1).padStart(2, "0");
+      var dd = String(d.getDate()).padStart(2, "0");
+      dateInput.value = d.getFullYear() + "-" + mm + "-" + dd;
+    }
+  }
+  function closeMinutes(){ minutesOverlay.classList.remove("show"); }
+
+  function setMinutesStatus(msg){
+    var el = document.getElementById("minutesUploadStatus");
+    if (el) el.textContent = msg;
+  }
+
+  function renderMinutesContent(rec){
+    var contentEl = document.getElementById("minutesContent");
+    if (!rec){
+      contentEl.innerHTML = '<div class="minutes-placeholder">왼쪽 목록에서 날짜를 선택하면 회의록 내용이 여기에 표시됩니다.</div>';
+      return;
+    }
+    contentEl.innerHTML = rec.html || '<div class="minutes-placeholder">내용을 표시할 수 없습니다.</div>';
+  }
+
+  function renderMinutesList(){
+    var listEl = document.getElementById("minutesList");
+    var sorted = minutesRecords.slice().sort(function(a, b){
+      var ad = a.date || "", bd = b.date || "";
+      if (ad !== bd) return ad < bd ? 1 : -1;
+      return (b.uploadedAt || 0) - (a.uploadedAt || 0);
+    });
+    if (!sorted.length){
+      listEl.innerHTML = '<div class="minutes-empty">업로드된 회의록이 없습니다.</div>';
+      activeMinutesId = null;
+      renderMinutesContent(null);
+      return;
+    }
+    if (!activeMinutesId || !sorted.some(function(r){ return r.id === activeMinutesId; })){
+      activeMinutesId = sorted[0].id;
+    }
+    listEl.innerHTML = "";
+    sorted.forEach(function(rec){
+      var item = document.createElement("div");
+      item.className = "minutes-list-item" + (rec.id === activeMinutesId ? " active" : "");
+      var row = document.createElement("div");
+      row.className = "minutes-item-row";
+      var textWrap = document.createElement("div");
+      var dateDiv = document.createElement("div");
+      dateDiv.className = "minutes-item-date";
+      dateDiv.textContent = rec.date || "날짜 미지정";
+      var fileDiv = document.createElement("div");
+      fileDiv.className = "minutes-item-file";
+      fileDiv.textContent = rec.filename || "";
+      textWrap.appendChild(dateDiv);
+      textWrap.appendChild(fileDiv);
+      var delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "minutes-delete-btn";
+      delBtn.title = "삭제";
+      delBtn.textContent = "✕";
+      delBtn.addEventListener("click", function(e){
+        e.stopPropagation();
+        deleteMinutesRecord(rec.id);
+      });
+      row.appendChild(textWrap);
+      row.appendChild(delBtn);
+      item.appendChild(row);
+      item.addEventListener("click", function(){
+        activeMinutesId = rec.id;
+        renderMinutesList();
+      });
+      listEl.appendChild(item);
+    });
+    var activeRec = sorted.filter(function(r){ return r.id === activeMinutesId; })[0];
+    renderMinutesContent(activeRec);
+  }
+
+  function saveMinutesRecord(record){
+    minutesRecords.push(record);
+    activeMinutesId = record.id;
+    renderMinutesList();
+    if (minutesDbRef){
+      setMinutesStatus("저장 중…");
+      minutesDbRef.child(record.id).set(record)
+        .then(function(){ setMinutesStatus("저장됨 · " + new Date().toLocaleTimeString("ko-KR")); })
+        .catch(function(){ setMinutesStatus("로컬에는 저장됨 · Firebase 저장 실패"); });
+    } else {
+      setMinutesStatus("로컬에만 저장됨 (Firebase 미연결)");
+    }
+  }
+
+  function deleteMinutesRecord(id){
+    minutesRecords = minutesRecords.filter(function(r){ return r.id !== id; });
+    if (activeMinutesId === id) activeMinutesId = null;
+    renderMinutesList();
+    if (minutesDbRef) minutesDbRef.child(id).remove();
+  }
+
+  function handleMinutesFile(file){
+    if (!file) return;
+    if (typeof mammoth === "undefined"){
+      setMinutesStatus("문서 변환 라이브러리를 불러오지 못했습니다 (네트워크 확인).");
+      return;
+    }
+    var dateInput = document.getElementById("minutesDateInput");
+    var date = dateInput && dateInput.value ? dateInput.value : "";
+    setMinutesStatus("변환 중…");
+    var reader = new FileReader();
+    reader.onload = function(e){
+      mammoth.convertToHtml({ arrayBuffer: e.target.result })
+        .then(function(result){
+          var record = {
+            id: "m" + Date.now() + Math.floor(Math.random() * 1000),
+            date: date,
+            filename: file.name,
+            html: result.value,
+            uploadedAt: Date.now()
+          };
+          saveMinutesRecord(record);
+        })
+        .catch(function(){
+          setMinutesStatus("변환 실패 · 올바른 .docx 파일인지 확인해 주세요.");
+        });
+    };
+    reader.onerror = function(){
+      setMinutesStatus("파일을 읽지 못했습니다.");
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  function initMinutesSync(){
+    try{
+      if (typeof firebase === "undefined") return;
+      var app = (firebase.apps && firebase.apps.length) ? firebase.apps[0] : firebase.initializeApp({ databaseURL: DASHBOARD_DB_URL });
+      minutesDbRef = firebase.database(app).ref("meetingMinutes");
+      minutesDbRef.on("value", function(snapshot){
+        var data = snapshot.val();
+        var list = [];
+        if (data){
+          Object.keys(data).forEach(function(key){
+            if (data[key]) list.push(data[key]);
+          });
+        }
+        minutesRecords = list;
+        renderMinutesList();
+      }, function(){
+        setMinutesStatus("Firebase 연결 실패 · 로컬에만 저장됩니다");
+      });
+    }catch(err){
+      setMinutesStatus("Firebase 연결 불가 · 로컬에만 저장됩니다");
+    }
+  }
+
+  document.getElementById("btnMinutes").addEventListener("click", openMinutes);
+  document.getElementById("minutesClose").addEventListener("click", closeMinutes);
+  document.getElementById("minutesCloseBtn").addEventListener("click", closeMinutes);
+  minutesOverlay.addEventListener("click", function(e){
+    if (e.target === minutesOverlay) closeMinutes();
+  });
+  document.getElementById("minutesFileInput").addEventListener("change", function(e){
+    var file = e.target.files && e.target.files[0];
+    handleMinutesFile(file);
+    e.target.value = "";
+  });
+
+  renderMinutesList();
+  initMinutesSync();
+
+  initDashboardSync();
 })();
 </script>
 <script>
@@ -1454,7 +1896,7 @@ let idCounter = 1;
 let gidCounter = 1;
 let dragCtx = null;
 
-const FIREBASE_URL = 'https://qualityschedule-board-default-rtdb.firebaseio.com';
+const FIREBASE_URL = 'https://construction-adv-dashboard-default-rtdb.firebaseio.com';
 const TEXT_FIELD_IDS = ['doc-title','meta-docnum','meta-dept','meta-date','footer-note'];
 const MANUAL_STAT_IDS = [];
 const AUGUST_2026_TEXT_VALUES = {};
@@ -1546,9 +1988,12 @@ function applyPendingRemoteIfIdle(){
 }
 let fbApp = null;
 function ensureFirebaseApp(){
-  if(!fbApp){
-    fbApp = firebase.initializeApp({ databaseURL: FIREBASE_URL });
+  if(fbApp) return;
+  if(typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length){
+    fbApp = firebase.apps[0];
+    return;
   }
+  fbApp = firebase.initializeApp({ databaseURL: FIREBASE_URL });
 }
 function currentStateKey(){
   if(currentYear === 2026 && currentMonth === 8) return 'state';
