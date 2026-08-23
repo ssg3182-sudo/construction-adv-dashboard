@@ -60,24 +60,44 @@
   .minutes-tab:hover{background:#DCE4F2;}
 
   #minutesOverlay{background:rgba(15,25,45,.5);}
-  #minutesOverlay .modal-box.minutes-box{max-width:840px;border-color:#C7D3E9;}
-  #minutesOverlay .modal-header{background:var(--navy);}
+  #minutesOverlay .modal-box.minutes-box{
+    max-width:96vw;border-color:#C7D3E9;position:relative;
+    display:flex;flex-direction:column;
+    width:840px;height:600px;min-width:520px;min-height:380px;max-height:92vh;
+    resize:both;overflow:hidden;
+  }
+  #minutesOverlay .modal-box.minutes-box.maximized{width:96vw !important;height:92vh !important;}
+  #minutesOverlay .modal-header{background:var(--navy);flex:0 0 auto;}
+  .modal-header-actions{display:flex;align-items:center;gap:2px;}
   #minutesOverlay .modal-footer-right .btn{border-color:#C7D3E9;color:var(--navy);}
   #minutesOverlay .modal-footer-right .btn:hover{background:#EAEFF9;}
   #minutesOverlay .modal-footer-right .btn.primary{background:var(--navy);color:#fff;border-color:var(--navy);}
   #minutesOverlay .modal-footer-right .btn.primary:hover{background:var(--navy-2);border-color:var(--navy-2);}
-  .minutes-modal-body{white-space:normal;max-height:68vh;min-height:0;}
-  .minutes-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px;}
+  #minutesOverlay .modal-footer{flex:0 0 auto;}
+  #minutesOverlay .minutes-modal-body{
+    white-space:normal;flex:1 1 auto;min-height:0;max-height:none;overflow:hidden;
+    display:flex;flex-direction:column;padding:20px;
+  }
+  .minutes-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:14px;flex:0 0 auto;}
+  #minutesOverlay .minutes-box.drag-over{outline:3px dashed var(--navy-2);outline-offset:-3px;}
+  #minutesOverlay .minutes-box.drag-over::after{
+    content:"여기에 .docx 파일을 놓으세요";
+    position:absolute;inset:0;background:rgba(31,56,100,.08);
+    display:flex;align-items:center;justify-content:center;
+    font-size:16px;font-weight:800;color:var(--navy);
+    pointer-events:none;z-index:5;
+  }
   .minutes-upload-label{cursor:pointer;}
   .minutes-date-input{
     border:1px solid var(--line-strong);border-radius:8px;padding:7px 10px;font-size:13px;
     font-family:inherit;color:var(--ink);background:#fff;cursor:pointer;
   }
   .minutes-upload-status{font-size:12px;color:var(--sub);}
-  .minutes-layout{display:flex;gap:16px;align-items:flex-start;}
+  .minutes-drop-hint{font-size:11.5px;color:var(--sub);}
+  .minutes-layout{display:flex;gap:16px;align-items:stretch;flex:1 1 auto;min-height:0;}
   .minutes-list{
     flex:0 0 240px;border:1px solid var(--line-strong);border-radius:10px;
-    max-height:52vh;overflow-y:auto;background:#FAFBFD;
+    overflow-y:auto;background:#FAFBFD;
   }
   .minutes-empty, .minutes-placeholder{padding:16px;font-size:12.5px;color:var(--sub);}
   .minutes-list-item{
@@ -100,7 +120,7 @@
   .minutes-list-item.active .minutes-delete-btn{color:#D9E2F2;}
   .minutes-list-item.active .minutes-delete-btn:hover{background:rgba(255,255,255,.2);color:#fff;}
   .minutes-content{
-    flex:1;min-width:0;max-height:52vh;overflow-y:auto;padding:6px 4px;
+    flex:1;min-width:0;overflow-y:auto;padding:6px 4px;
     font-size:13px;line-height:1.7;color:var(--ink);
   }
   .minutes-content table{border-collapse:collapse;margin:10px 0;max-width:100%;}
@@ -560,7 +580,10 @@
     <div class="modal-box minutes-box">
       <div class="modal-header">
         <span>📝 회의록</span>
-        <button class="modal-close" id="minutesClose" type="button">✕</button>
+        <div class="modal-header-actions">
+          <button class="modal-close" id="minutesMaximize" type="button" title="전체화면으로 보기">⛶</button>
+          <button class="modal-close" id="minutesClose" type="button">✕</button>
+        </div>
       </div>
       <div class="modal-body minutes-modal-body">
         <div class="minutes-toolbar">
@@ -569,6 +592,7 @@
             <input type="file" id="minutesFileInput" accept=".docx" style="display:none">
           </label>
           <input type="date" id="minutesDateInput" class="minutes-date-input">
+          <span class="minutes-drop-hint">또는 파일을 이 창에 끌어다 놓으세요</span>
           <span id="minutesUploadStatus" class="minutes-upload-status"></span>
         </div>
         <div class="minutes-layout">
@@ -973,10 +997,10 @@
       actions.appendChild(cancelBtn);
       actions.appendChild(saveBtn);
 
-      var originalText = body.textContent;
+      var originalText = body.innerHTML;
 
       function enterEditMode(){
-        originalText = body.textContent;
+        originalText = body.innerHTML;
         body.contentEditable = "true";
         body.focus();
         document.execCommand && document.execCommand("selectAll", false, null);
@@ -990,7 +1014,7 @@
       }
       editBtn.addEventListener("click", enterEditMode);
       cancelBtn.addEventListener("click", function(){
-        body.textContent = originalText;
+        body.innerHTML = originalText;
         exitEditMode();
       });
       saveBtn.addEventListener("click", function(){
@@ -1425,14 +1449,14 @@
     document.querySelectorAll("#leaderRequests .leader-request").forEach(function(box){
       var name = box.getAttribute("data-person");
       var body = box.querySelector(".leader-request-body");
-      if (name && body) leaderRequests[name] = body.textContent;
+      if (name && body) leaderRequests[name] = body.innerHTML;
     });
     return {
       simple: simple,
       common: common,
       personal: personal,
       leaderRequests: leaderRequests,
-      notice: noticeBody ? noticeBody.textContent : "",
+      notice: noticeBody ? noticeBody.innerHTML : "",
       updatedAt: Date.now()
     };
   }
@@ -1464,11 +1488,11 @@
       document.querySelectorAll("#leaderRequests .leader-request").forEach(function(box){
         var name = box.getAttribute("data-person");
         var body = box.querySelector(".leader-request-body");
-        if (body && name && data.leaderRequests[name] != null) body.textContent = data.leaderRequests[name];
+        if (body && name && data.leaderRequests[name] != null) body.innerHTML = data.leaderRequests[name];
       });
     }
     if (typeof data.notice === "string" && noticeBody && noticeBody.getAttribute("contenteditable") !== "true"){
-      noticeBody.textContent = data.notice;
+      noticeBody.innerHTML = data.notice;
     }
     renderCommonTabs();
     filterCommonRows();
@@ -1712,6 +1736,10 @@
 
   function handleMinutesFile(file){
     if (!file) return;
+    if (!/\.docx$/i.test(file.name)){
+      setMinutesStatus("'.docx' 파일만 업로드할 수 있습니다.");
+      return;
+    }
     if (typeof mammoth === "undefined"){
       setMinutesStatus("문서 변환 라이브러리를 불러오지 못했습니다 (네트워크 확인).");
       return;
@@ -1775,6 +1803,41 @@
     var file = e.target.files && e.target.files[0];
     handleMinutesFile(file);
     e.target.value = "";
+  });
+
+  // 전체화면 토글
+  var minutesBox = minutesOverlay.querySelector(".minutes-box");
+  var minutesMaximizeBtn = document.getElementById("minutesMaximize");
+  minutesMaximizeBtn.addEventListener("click", function(){
+    var isMax = minutesBox.classList.toggle("maximized");
+    minutesMaximizeBtn.title = isMax ? "원래 크기로" : "전체화면으로 보기";
+  });
+
+  // 드래그 앤 드롭 업로드
+  var minutesDragCounter = 0;
+  minutesBox.addEventListener("dragenter", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    minutesDragCounter++;
+    minutesBox.classList.add("drag-over");
+  });
+  minutesBox.addEventListener("dragover", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  minutesBox.addEventListener("dragleave", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    minutesDragCounter = Math.max(0, minutesDragCounter - 1);
+    if (minutesDragCounter === 0) minutesBox.classList.remove("drag-over");
+  });
+  minutesBox.addEventListener("drop", function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    minutesDragCounter = 0;
+    minutesBox.classList.remove("drag-over");
+    var file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (file) handleMinutesFile(file);
   });
 
   renderMinutesList();
